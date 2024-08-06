@@ -35,12 +35,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.somed.dkaassistant.databinding.FragmentMainBinding
 import androidx.core.content.ContextCompat
-import android.animation.AnimatorListenerAdapter
-import android.animation.Animator
 import android.media.AudioManager
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
-import androidx.databinding.DataBindingUtil.setContentView
 
 open class MainFragment : Fragment() {
 
@@ -69,61 +65,40 @@ open class MainFragment : Fragment() {
     val patient: Patient = Patient()
 
     //region Patient Input Data
-    private lateinit var iAge: String // Track user text input for age
-    //private var age = 0 // Internal App calculations uses years
+    private lateinit var iAge: String // Track user text input for age, Internal App calculations uses years
 
     private lateinit var iWeight: String
-
-    //private var weight = 0.0 // Internal App calculations uses kg
-    private var isWeightKg = true
+    private var isWeightKg = true // Internal App calculations uses kg
 
     private lateinit var iRBS: String
+    private var isRBSMg = true // Internal App calculations uses mg/dL
 
-    //private var rbs = 0.0 // Internal App calculations uses mg/dL
-    private var isRBSMg = true
+    private lateinit var iPotassium: String // Internal App calculations uses mmol/L
+
+    private lateinit var iUreaBUN: String
+    private var isUreaBUNMg = true // Internal App calculations uses mg/dL
 
     private lateinit var iPhosphorus: String
-
-    //private var phosphorus = 0.0 // Internal App calculations uses mg/dL
-    private var isPhosphorusMg = false
-    
-    
-    private lateinit var iCalcium: String
-
-    //private var phosphorus = 0.0 // Internal App calculations uses mg/dL
-    private var isCalciumMg = false
+    private var isPhosphorusMg = false // Internal App calculations uses mg/dL
 
     private lateinit var iMagnesium: String
+    private var isMagnesiumMg = false // Internal App calculations uses mg/dL
 
-    //private var magnesium = 0.0 // Internal App calculations uses mg/dL
-    private var isMagnesiumMg = false
+    private lateinit var iCalcium: String
+    private var isCalciumMg = false // Internal App calculations uses mg/dL
 
-    private lateinit var iPotassium: String
-    //private var potassium = 0.0 // Internal App calculations uses mmol/L
+    private lateinit var iSodium: String // Internal App calculations uses mmol/L
 
-    private lateinit var iSodium: String
-    //private var sodium = 0 // Internal App calculations uses mmol/L
+    private lateinit var iChloride: String // Internal App calculations uses mmol/L
 
-    private lateinit var iChloride: String
-    //private var chloride = 0 // Internal App calculations uses mmol/L
-
-    private lateinit var iAlbumin: String
-
-    //private var albumin = 0.0 // Internal App calculation uses g/dL
+    private lateinit var iAlbumin: String // Internal App calculation uses g/dL
     private var isAlbuminGDL = true
 
     private lateinit var ipH: String
-    //private var pH = 0.0
 
-    private lateinit var ipCO2: String
-    //private var pCO2 = 0.0 // Internal App calculation uses mmHg
-    //private var ispCO2kPa = false
+    private lateinit var ipCO2: String // Internal App calculation uses mmHg
 
-    private lateinit var icHCO3: String
-    //private var cHCO3 = 0.0 // Internal App calculation uses mmol/L
-
-    //private var adolescentDehydrationPercentage = 0
-
+    private lateinit var icHCO3: String // Internal App calculation uses mmol/L
     //endregion
 
     //region Validation Variables
@@ -132,26 +107,30 @@ open class MainFragment : Fragment() {
 
     private var isValidWeight = true
     private var lastPotentialWeight: String = ""
-    private var isWgtBeingConverted = false
+    //private var isWgtUnitBeingConverted = false
 
     private var isValidRBS = true
     private var lastPotentialRBS: String = ""
-    private var isRBSBeingConverted = false
-
-    private var isValidPhosphorus = true
-    private var lastPotentialPhosphorus: String = ""
-    private var isPhosphorusBeingConverted = false
-    
-    private var isValidCalcium = true
-    private var lastPotentialCalcium: String = ""
-    private var isCalciumBeingConverted = false
-
-    private var isValidMagnesium = true
-    private var lastPotentialMagnesium: String = ""
-    private var isMagnesiumBeingConverted = false
+    //private var isRBSUnitBeingConverted = false
 
     private var isValidPotassium = true
     private var lastPotentialPotassium: String = ""
+
+    private var isValidUreaBUN = true
+    private var lastPotentialUreaBUN: String =
+        "" // Default setting for App to enter BUN or Urea in mg/dL
+    private var isBUNToBeInputted = true // Default setting for App to enter BUN not Urea
+
+    private var isValidPhosphorus = true
+    private var lastPotentialPhosphorus: String = ""
+    //private var isPhosphorusUnitBeingConverted = false
+
+    private var isValidMagnesium = true
+    private var lastPotentialMagnesium: String = ""
+    //private var isMagnesiumUnitBeingConverted = false
+
+    private var isValidCalcium = true
+    private var lastPotentialCalcium: String = ""
 
     private var isValidSodium = true
     private var lastPotentialSodium: String = ""
@@ -161,16 +140,13 @@ open class MainFragment : Fragment() {
 
     private var isValidAlbumin = true
     private var lastPotentialAlbumin: String = ""
-    private var isAlbuminBeingConverted = false
 
     private var isValidpH = true
     private var lastPotentialpH: String = ""
 
     private var isValidpCO2 = true
     private var lastPotentialpCO2: String = ""
-    private var ispCO2BeingConverted = false
 
-    //private var isValidcHCO3 = true
     private var lastPotentialcHCO3: String = ""
 
     var invalidRxToBeginWith = "^(0|[.])$"
@@ -200,9 +176,7 @@ open class MainFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false)
@@ -221,7 +195,6 @@ open class MainFragment : Fragment() {
 
         return binding.root
     }
-
 
     @SuppressLint("SetTextI18n")
     fun displayManagement() {
@@ -266,14 +239,57 @@ open class MainFragment : Fragment() {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setTextInputsDynamicsToGetData() {
-        // Set event to detect and store the Age value
+        // Set events to detect and store the inputted values
+
+        // Zeroing values and add new patient
+        binding.ivNewPatient.setOnClickListener {
+            binding.patientNameInput.text = null
+            binding.ageInput.text = null
+            binding.weightInput.text = null
+            binding.rbsInput.text = null
+            binding.po4Input.text = null
+            binding.mgInput.text = null
+            binding.potInput.text = null
+            binding.calInput.text = null
+            binding.sodInput.text = null
+            binding.chlInput.text = null
+            binding.albuminInput.text = null
+            binding.pHInput.text = null
+            binding.pCO2Input.text = null
+            binding.cHCO3Input.text = null
+            binding.patientNameInput.requestFocus()
+        }
+
+        binding.patientNameInput.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(
+                s: CharSequence?, start: Int, count: Int, after: Int
+            ) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                try { // Set Patient Age
+                    locallyStoredAppSettingsFile.edit().putString("patientName", s.toString())
+                        .apply()
+                } catch (_: Exception) {
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+        binding.patientNameInput.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                val text = binding.patientNameInput.text.toString()
+                if (text.isNotEmpty() && text[0] != '#') {
+                    binding.patientNameInput.setText("#$text")
+                }
+            }
+        }
+
         binding.ageInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(
-                s: CharSequence?,
-                start: Int,
-                count: Int,
-                after: Int
+                s: CharSequence?, start: Int, count: Int, after: Int
             ) {
             }
 
@@ -298,10 +314,9 @@ open class MainFragment : Fragment() {
                             if (iAge.toInt() in 14..119) {
                                 patient.age = iAge.toInt()
                                 isValidAge = true
-                                
+
                                 locallyStoredAppSettingsFile.edit()
-                        .putString("patientAge", s.toString())
-                        .apply()
+                                    .putString("patientAge", s.toString()).apply()
 
                             } else {
                                 // Set Error
@@ -323,43 +338,48 @@ open class MainFragment : Fragment() {
                     patient.age = 0
                     lastPotentialAge = ""
                     isValidAge = true
-                    
-                    locallyStoredAppSettingsFile.edit()
-                        .putString("patientAge", s.toString())
+
+                    locallyStoredAppSettingsFile.edit().putString("patientAge", s.toString())
                         .apply()
                 }
                 displayManagement()
             }
         })
-
-
         binding.ageInput.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 if (!isValidAge) {
+                    binding.ageInput.setTextColor(Color.parseColor("#D41212"))
+                    binding.ageLabel.text = "Yrs ⚠"
                     binding.ageLabel.setTextColor(Color.parseColor("#D41212"))
-                    binding.ageLabel.typeface = ResourcesCompat.getFont(requireContext(), R.font.made_tommy_bold)
+                    binding.ageLabel.typeface =
+                        ResourcesCompat.getFont(requireContext(), R.font.made_tommy_bold)
                 } else {
+                    binding.ageInput.setTextColor(Color.parseColor("#474747"))
+                    binding.ageLabel.text = "Yrs"
                     binding.ageLabel.setTextColor(Color.parseColor("#AEABAB"))
+                    binding.ageLabel.typeface =
+                        ResourcesCompat.getFont(requireContext(), R.font.made_tommy_reg)
                 }
             } else {
+                binding.ageInput.setSelection(binding.ageInput.text.toString().length) // Move cursor to the end
+                binding.ageInput.setTextColor(Color.parseColor("#474747"))
+                binding.ageLabel.text = "Yrs"
                 binding.ageLabel.setTextColor(Color.parseColor("#AEABAB"))
+                binding.ageLabel.typeface =
+                    ResourcesCompat.getFont(requireContext(), R.font.made_tommy_reg)
             }
         }
 
-
         binding.weightInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(
-                s: CharSequence?,
-                start: Int,
-                count: Int,
-                after: Int
+                s: CharSequence?, start: Int, count: Int, after: Int
             ) {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 iWeight = s.toString()
 
-                if (iWeight.isNotEmpty() && !isWgtBeingConverted) { // If Age field is not empty, containing no String
+                if (iWeight.isNotEmpty()) { // If Age field is not empty, containing no String
 
                     try { // Set Patient Age
                         if (isValidated("Weight", iWeight)) {
@@ -368,18 +388,16 @@ open class MainFragment : Fragment() {
                             if (isWeightKg && iWeight.toDouble() in 20.0..300.0) {
                                 patient.weight = iWeight.toDouble()
                                 isValidWeight = true
-                                
+
                                 locallyStoredAppSettingsFile.edit()
-                        .putString("patientWeight", s.toString())
-                        .apply()
+                                    .putString("patientWeight", s.toString()).apply()
                             } else if (!isWeightKg && iWeight.toDouble() in 44.0..650.0) {
                                 patient.weight =
                                     iWeight.toDouble().div(2.20462) // Convert lbs to kg
                                 isValidWeight = true
-                                
+
                                 locallyStoredAppSettingsFile.edit()
-                        .putString("patientWeight", s.toString())
-                        .apply()
+                                    .putString("patientWeight", s.toString()).apply()
                             } else {
                                 // Set Error
                                 isValidWeight = false
@@ -396,16 +414,12 @@ open class MainFragment : Fragment() {
                         }
                     } catch (_: Exception) {
                     }
-                } else if (iWeight.isEmpty() && !isWgtBeingConverted) {
+                } else if (iWeight.isEmpty()) {
                     patient.weight = 0.0
                     lastPotentialWeight = ""
                     isValidWeight = true
-                    
-                    locallyStoredAppSettingsFile.edit()
-                        .putString("patientWeight", "")
-                        .apply()
-                } else {
-                    isWgtBeingConverted = false
+
+                    locallyStoredAppSettingsFile.edit().putString("patientWeight", "").apply()
                 }
                 displayManagement()
             }
@@ -413,62 +427,65 @@ open class MainFragment : Fragment() {
             override fun afterTextChanged(s: Editable?) {}
         })
         binding.weightLabel.setOnLongClickListener {
+            if (binding.weightInput.hasFocus()) {
+                // Toggle the unit
+                isWeightKg = !isWeightKg
 
-            isWgtBeingConverted = true
-            // Toggle the unit
-            isWeightKg = !isWeightKg
+                locallyStoredAppSettingsFile.edit().putBoolean("isWeightKg", isWeightKg).apply()
 
-            locallyStoredAppSettingsFile.edit()
-                .putBoolean("isWeightKg", isWeightKg)
-                .apply()
+                // Update the hint and suffix text based on the unit
+                if (isWeightKg) {
+                    binding.weightLabel.text = "Kg"
+                } else {
+                    binding.weightLabel.text = "lbs"
+                }
 
-            // Update the hint and suffix text based on the unit
-            if (isWeightKg) {
-                binding.weightLabel.text = "Kg"
-            } else {
-                binding.weightLabel.text = "lbs"
+                // Convert the entered weight to the new unit
+                val enteredWeight = binding.weightInput.text.toString().toDoubleOrNull()
+                val convertedWeight = if (isWeightKg) {
+                    enteredWeight?.div(2.20462)
+                } else {
+                    enteredWeight?.times(2.20462)
+                }
+
+                // Update the text in the input field
+                if (convertedWeight != null) {
+                    binding.weightInput.setText(String.format("%.1f", convertedWeight))
+                }
+
+                binding.weightInput.setSelection(binding.weightInput.text?.length ?: 0)
+
             }
-
-            // Convert the entered weight to the new unit
-            val enteredWeight = binding.weightInput.text.toString().toDoubleOrNull()
-            val convertedWeight = if (isWeightKg) {
-                enteredWeight?.div(2.20462)
-            } else {
-                enteredWeight?.times(2.20462)
-            }
-
-            // Update the text in the input field
-            if (convertedWeight != null) {
-                binding.weightInput.setText(String.format("%.1f", convertedWeight))
-            }
-
-            binding.weightInput.setSelection(binding.weightInput.text?.length ?: 0)
-
-
             true
         }
-        /*
         binding.weightInput.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 if (!isValidWeight) {
-                    binding.weightTIL.boxBackgroundColor = errorInputBackgroundColor
-                    binding.weightTIL.hint = "Weight ⚠"
+                    binding.weightInput.setTextColor(Color.parseColor("#D41212"))
+                    binding.weightLabel.text = "Kg ⚠"
+                    binding.weightLabel.setTextColor(Color.parseColor("#D41212"))
+                    binding.weightLabel.typeface =
+                        ResourcesCompat.getFont(requireContext(), R.font.made_tommy_bold)
                 } else {
-                    binding.weightTIL.boxBackgroundColor = defaultInputBackgroundColor
-                    binding.weightTIL.hint = "Weight"
+                    binding.weightInput.setTextColor(Color.parseColor("#474747"))
+                    binding.weightLabel.text = "Kg"
+                    binding.weightLabel.setTextColor(Color.parseColor("#AEABAB"))
+                    binding.weightLabel.typeface =
+                        ResourcesCompat.getFont(requireContext(), R.font.made_tommy_reg)
                 }
             } else {
-                binding.weightTIL.boxBackgroundColor = defaultInputBackgroundColor
-                binding.weightTIL.hint = "Weight"
+                binding.weightInput.setSelection(binding.weightInput.text.toString().length) // Move cursor to the end
+                binding.weightInput.setTextColor(Color.parseColor("#474747"))
+                binding.weightLabel.text = "Kg"
+                binding.weightLabel.setTextColor(Color.parseColor("#AEABAB"))
+                binding.weightLabel.typeface =
+                    ResourcesCompat.getFont(requireContext(), R.font.made_tommy_reg)
             }
         }
-*/
+
         binding.rbsInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(
-                s: CharSequence?,
-                start: Int,
-                count: Int,
-                after: Int
+                s: CharSequence?, start: Int, count: Int, after: Int
             ) {
             }
 
@@ -478,7 +495,7 @@ open class MainFragment : Fragment() {
                 if (iRBS.isNotEmpty()) { // If Age field is not empty, containing no String
 
                     try { // Set Patient Age
-                        if (isValidated("RBS", iRBS) && !isRBSBeingConverted) {
+                        if (isValidated("RBS", iRBS)) {
                             lastPotentialRBS = iRBS
 
                             if (isRBSMg && iRBS.toDouble() in 10.0..1200.0) {
@@ -504,12 +521,10 @@ open class MainFragment : Fragment() {
                         }
                     } catch (_: Exception) {
                     }
-                } else if (iRBS.isEmpty() && !isRBSBeingConverted) {
+                } else if (iRBS.isEmpty()) {
                     patient.rbs = 0.0
                     lastPotentialRBS = ""
                     isValidRBS = true
-                } else {
-                    isRBSBeingConverted = false
                 }
                 displayManagement()
             }
@@ -522,9 +537,7 @@ open class MainFragment : Fragment() {
                 // Toggle the unit
                 isRBSMg = !isRBSMg
 
-                locallyStoredAppSettingsFile.edit()
-                    .putBoolean("isRBSMg", isRBSMg)
-                    .apply()
+                locallyStoredAppSettingsFile.edit().putBoolean("isRBSMg", isRBSMg).apply()
 
                 // Update the hint and suffix text based on the unit
                 if (isRBSMg) {
@@ -570,334 +583,9 @@ open class MainFragment : Fragment() {
             }
         }
 
-        binding.po4Input.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(
-                s: CharSequence?,
-                start: Int,
-                count: Int,
-                after: Int
-            ) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                iPhosphorus = s.toString()
-
-                if (iPhosphorus.isNotEmpty()) { // If Age field is not empty, containing no String
-
-                    try { // Set Patient Age
-                        if (isValidated("Phosphorus", iPhosphorus) && !isPhosphorusBeingConverted) {
-                            lastPotentialPhosphorus = iPhosphorus
-
-                            if (isPhosphorusMg && iPhosphorus.toDouble() in 0.1..15.0) {
-                                patient.phosphorus = iPhosphorus.toDouble()
-                                isValidPhosphorus = true
-                            } else if (!isPhosphorusMg && iPhosphorus.toDouble() in 0.05..5.0) {
-                                patient.phosphorus =
-                                    iPhosphorus.toDouble().div(0.3229) // Convert mmol/L to mg/dL
-                                isValidPhosphorus = true
-                            } else {
-                                // Set Error
-                                isValidPhosphorus = false
-                            }
-                        } else {
-                            if (isPhosphorusMg && iPhosphorus.matches(invalidRxToBeginWith2.toRegex())) {
-                                lastPotentialPhosphorus = ""
-                                binding.po4Input.setText(lastPotentialPhosphorus)
-                            } else {
-                                binding.po4Input.setText(lastPotentialPhosphorus)
-                                binding.po4Input.setSelection(iPhosphorus.length) // Move cursor to the end
-                            }
-                            isValidPhosphorus = true
-                        }
-                    } catch (_: Exception) {
-                    }
-                } else if (iPhosphorus.isEmpty() && !isPhosphorusBeingConverted) {
-                    patient.phosphorus = 0.0
-                    lastPotentialPhosphorus = ""
-                    isValidPhosphorus = true
-                } else {
-                    isPhosphorusBeingConverted = false
-                }
-                displayManagement()
-            }
-
-            override fun afterTextChanged(s: Editable?) {}
-        })
-        binding.po4Input.setOnLongClickListener {
-            if (binding.po4Input.hasFocus()) {
-
-                // Toggle the unit
-                isPhosphorusMg = !isPhosphorusMg
-
-
-                locallyStoredAppSettingsFile.edit()
-                    .putBoolean("isPhosphorusMg", isPhosphorusMg)
-                    .apply()
-                // Update the hint and suffix text based on the unit
-                if (isPhosphorusMg) {
-                    binding.po4TIL.suffixText = "mg/dL"
-                } else {
-                    binding.po4TIL.suffixText = "mmol/L"
-                }
-
-                // Convert the entered PO4 to the new unit
-                val enteredPO4 = binding.po4Input.text.toString().toDoubleOrNull()
-                val convertedPO4 = if (isPhosphorusMg) {
-                    enteredPO4?.div(0.3229)
-                } else {
-                    enteredPO4?.times(0.3229)
-                }
-
-                // Update the text in the input field
-                if (convertedPO4 != null) {
-                    if (isPhosphorusMg) {
-                        binding.po4Input.setText(String.format("%.2f", convertedPO4))
-                    } else {
-                        binding.po4Input.setText(String.format("%.2f", convertedPO4))
-                    }
-                }
-                binding.po4Input.setSelection(binding.po4Input.text?.length ?: 0)
-            }
-            true
-        }
-        binding.po4Input.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) {
-                if (!isValidPhosphorus) {
-                    binding.po4TIL.boxBackgroundColor = errorInputBackgroundColor
-                    binding.po4TIL.hint = "PO₄³⁻ ⚠"
-                } else {
-                    binding.po4TIL.boxBackgroundColor = defaultInputBackgroundColor
-                    binding.po4TIL.hint = "PO₄³⁻"
-                }
-            } else {
-                binding.po4TIL.boxBackgroundColor = defaultInputBackgroundColor
-                binding.po4TIL.hint = "PO₄³⁻"
-            }
-        }
-
-        binding.mgInput.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(
-                s: CharSequence?,
-                start: Int,
-                count: Int,
-                after: Int
-            ) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                iMagnesium = s.toString()
-
-                if (iMagnesium.isNotEmpty()) { // If Age field is not empty, containing no String
-
-                    try { // Set Patient Age
-                        if (isValidated("Magnesium", iMagnesium) && !isMagnesiumBeingConverted) {
-                            lastPotentialMagnesium = iMagnesium
-
-                            if (isMagnesiumMg && iMagnesium.toDouble() in 0.1..20.0) {
-                                patient.magnesium = iMagnesium.toDouble()
-                                isValidMagnesium = true
-                            } else if (!isMagnesiumMg && iMagnesium.toDouble() in 0.1..10.0) {
-                                patient.magnesium =
-                                    iMagnesium.toDouble().div(0.41152) // Convert mmol/L to mg/dL
-                                isValidMagnesium = true
-                            } else {
-                                // Set Error
-                                isValidMagnesium = false
-                            }
-                        } else {
-                            if (isMagnesiumMg && iMagnesium.matches(invalidRxToBeginWith2.toRegex())) {
-                                lastPotentialMagnesium = ""
-                                binding.mgInput.setText(lastPotentialMagnesium)
-                            } else {
-                                binding.mgInput.setText(lastPotentialMagnesium)
-                                binding.mgInput.setSelection(iMagnesium.length) // Move cursor to the end
-                            }
-                            isValidMagnesium = true
-                        }
-                    } catch (_: Exception) {
-                    }
-                } else if (iMagnesium.isEmpty() && !isMagnesiumBeingConverted) {
-                    patient.magnesium = 0.0
-                    lastPotentialMagnesium = ""
-                    isValidMagnesium = true
-                } else {
-                    isMagnesiumBeingConverted = false
-                }
-                displayManagement()
-            }
-
-            override fun afterTextChanged(s: Editable?) {}
-        })
-        binding.mgInput.setOnLongClickListener {
-            if (binding.mgInput.hasFocus()) {
-
-                // Toggle the unit
-                isMagnesiumMg = !isMagnesiumMg
-
-
-                locallyStoredAppSettingsFile.edit()
-                    .putBoolean("isMagnesiumMg", isMagnesiumMg)
-                    .apply()
-
-                // Update the hint and suffix text based on the unit
-                if (isMagnesiumMg) {
-                    binding.mgTIL.suffixText = "mg/dL"
-                } else {
-                    binding.mgTIL.suffixText = "mmol/L"
-                }
-
-                // Convert the entered PO4 to the new unit
-                val enteredMg = binding.mgInput.text.toString().toDoubleOrNull()
-                val convertedMg = if (isMagnesiumMg) {
-                    enteredMg?.div(0.41152)
-                } else {
-                    enteredMg?.times(0.41152)
-                }
-
-                // Update the text in the input field
-                if (convertedMg != null) {
-                    if (isMagnesiumMg) {
-                        binding.mgInput.setText(String.format("%.2f", convertedMg))
-                    } else {
-                        binding.mgInput.setText(String.format("%.2f", convertedMg))
-                    }
-                }
-
-                binding.mgInput.setSelection(binding.mgInput.text?.length ?: 0)
-
-            }
-            true
-        }
-        binding.mgInput.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) {
-                if (!isValidMagnesium) {
-                    binding.mgTIL.boxBackgroundColor = errorInputBackgroundColor
-                    binding.mgTIL.hint = "Mg²⁺ ⚠"
-                } else {
-                    binding.mgTIL.boxBackgroundColor = defaultInputBackgroundColor
-                    binding.mgTIL.hint = "Mg²⁺"
-                }
-            } else {
-                binding.mgTIL.boxBackgroundColor = defaultInputBackgroundColor
-                binding.mgTIL.hint = "Mg²⁺"
-            }
-        }
-        
-        
-        
-        
-        binding.calInput.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(
-                s: CharSequence?,
-                start: Int,
-                count: Int,
-                after: Int
-            ) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                iCalcium = s.toString()
-
-                if (iCalcium.isNotEmpty()) { // If Calcium field is not empty, containing no String
-
-                    try { // Set Patient Age
-                        if (isValidated("Calcium", iCalcium) && !isCalciumBeingConverted) {
-                            lastPotentialCalcium = iCalcium
-
-                            if (isCalciumMg && iCalcium.toDouble() in 1.0..25.0) {
-                                patient.calcium = iCalcium.toDouble()
-                                isValidCalcium = true
-                            } else if (!isCalciumMg && iCalcium.toDouble() in 0.05..5.0) {
-                                patient.calcium =
-                                    iCalcium.toDouble().div(0.25) // Convert mmol/L to mg/dL
-                                isValidCalcium = true
-                            } else {
-                                // Set Error
-                                isValidCalcium = false
-                            }
-                        } else {
-                            if (isCalciumMg && iCalcium.matches(invalidRxToBeginWith2.toRegex())) {
-                                lastPotentialCalcium = ""
-                                binding.calInput.setText(lastPotentialCalcium)
-                            } else {
-                                binding.calInput.setText(lastPotentialCalcium)
-                                binding.calInput.setSelection(iCalcium.length) // Move cursor to the end
-                            }
-                            isValidCalcium = true
-                        }
-                    } catch (_: Exception) {
-                    }
-                } else if (iCalcium.isEmpty() && !isCalciumBeingConverted) {
-                    patient.calcium = 0.0
-                    lastPotentialCalcium = ""
-                    isValidCalcium = true
-                } else {
-                    isCalciumBeingConverted = false
-                }
-                displayManagement()
-            }
-
-            override fun afterTextChanged(s: Editable?) {}
-        })
-        binding.calInput.setOnLongClickListener {
-            if (binding.calInput.hasFocus()) {
-
-                // Toggle the unit
-                isCalciumMg = !isCalciumMg
-
-
-                locallyStoredAppSettingsFile.edit()
-                    .putBoolean("isCalciumMg", isCalciumMg)
-                    .apply()
-                // Update the hint and suffix text based on the unit
-                if (isCalciumMg) {
-                    binding.calTIL.suffixText = "mg/dL"
-                } else {
-                    binding.calTIL.suffixText = "mmol/L"
-                }
-
-                // Convert the entered PO4 to the new unit
-                val enteredCal = binding.calInput.text.toString().toDoubleOrNull()
-                val convertedCal = if (isCalciumMg) {
-                    enteredCal?.div(0.25)
-                } else {
-                    enteredCal?.times(0.25)
-                }
-
-                // Update the text in the input field
-                if (convertedCal != null) {
-                    if (isCalciumMg) {
-                        binding.calInput.setText(String.format("%.2f", convertedCal))
-                    } else {
-                        binding.calInput.setText(String.format("%.2f", convertedCal))
-                    }
-                }
-                binding.calInput.setSelection(binding.calInput.text?.length ?: 0)
-            }
-            true
-        }
-        
-        binding.calInput.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) {
-                if (!isValidCalcium) {
-                    binding.calTIL.boxBackgroundColor = errorInputBackgroundColor
-                    binding.calTIL.hint = "Ca²⁺ ⚠"
-                } else {
-                    binding.calTIL.boxBackgroundColor = defaultInputBackgroundColor
-                    binding.calTIL.hint = "Ca²⁺"
-                }
-            } else {
-                binding.calTIL.boxBackgroundColor = defaultInputBackgroundColor
-                binding.calTIL.hint = "Ca²⁺"
-            }
-        }
-        
         binding.potInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(
-                s: CharSequence?,
-                start: Int,
-                count: Int,
-                after: Int
+                s: CharSequence?, start: Int, count: Int, after: Int
             ) {
             }
 
@@ -960,12 +648,430 @@ open class MainFragment : Fragment() {
             }
         }
 
+        binding.ureabunInput.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(
+                s: CharSequence?, start: Int, count: Int, after: Int
+            ) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                iUreaBUN = s.toString()
+
+                if (iUreaBUN.isNotEmpty()) { // If BUN/Urea field is not empty, i.e., it should contains any number
+
+                    try { // Set Patient Age
+                        if (isValidated("UreaBUN", iUreaBUN)) {
+                            lastPotentialUreaBUN = iUreaBUN
+
+                            if (isUreaBUNMg && isBUNToBeInputted && iUreaBUN.toDouble() in 1.0..300.0) {// User entered BUN value in mg/dL
+                                patient.bun = iUreaBUN.toDouble()
+                                isValidUreaBUN = true
+                            } else if (isUreaBUNMg && !isBUNToBeInputted && iUreaBUN.toDouble() in 1.0..600.0) {// User entered Urea value in mg/dL
+                                // We will convert to bun
+                                patient.bun = iUreaBUN.toDouble()
+                                    .div(2.1428) // Convert Urea mg/dL to bun mg/dL
+                                isValidUreaBUN = true
+                            } else if (!isUreaBUNMg && iUreaBUN.toDouble() in 1.0..300.0) {// User entered BUN or Urea value in mmol/L
+                                // Note BUN in mmol/dL = Urea in mmol/L
+                                patient.bun = iUreaBUN.toDouble()
+                                    .div(0.3571) // Convert BUN or Urea mmol/L to BUN mg/dL
+                                isValidUreaBUN = true
+                            } else {
+                                // Set Error
+                                isValidUreaBUN = false
+                            }
+                        } else {
+                            if (isUreaBUNMg && iUreaBUN.matches(invalidRxToBeginWith2.toRegex())) {
+                                lastPotentialUreaBUN = ""
+                                binding.ureabunInput.setText(lastPotentialUreaBUN)
+                            } else {
+                                binding.ureabunInput.setText(lastPotentialUreaBUN)
+                                binding.ureabunInput.setSelection(iUreaBUN.length) // Move cursor to the end
+                            }
+                            isValidUreaBUN = true
+                        }
+                    } catch (_: Exception) {
+                    }
+                } else if (iUreaBUN.isEmpty()) {
+                    patient.bun = 0.0
+                    lastPotentialUreaBUN = ""
+                    isValidUreaBUN = true
+                }
+                displayManagement()
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+        binding.ureabunInput.setOnLongClickListener {
+            if (binding.ureabunInput.hasFocus()) {
+
+                // Toggle the unit between mg/dL to mmol/L
+                isUreaBUNMg = !isUreaBUNMg
+
+                locallyStoredAppSettingsFile.edit().putBoolean("isUreaBUNMg", isUreaBUNMg).apply()
+                // Update the hint and suffix text based on the unit
+                binding.ureabunTIL.suffixText = if (isUreaBUNMg) "mg/dL" else "mmol/L"
+
+                // Convert the entered Urea/BUN to the new unit
+                val enteredUreaBUN = binding.ureabunInput.text.toString().toDoubleOrNull()
+
+
+                val convertedUreaBUN: Double? = if (isBUNToBeInputted) {
+                    // Convert from mmol/L to mg/dL
+                    if (isUreaBUNMg) {
+                        enteredUreaBUN?.div(0.3571)
+                    } else {
+                        enteredUreaBUN?.times(0.3571)
+                    }
+                } else {
+                    // Convert from mg/dL to mmol/L
+                    if (isUreaBUNMg) {
+                        enteredUreaBUN?.times(6.0)
+                    } else {
+                        enteredUreaBUN?.div(6.0)
+                    }
+                }
+
+                if (convertedUreaBUN != null) {
+                    // Update the text in the input field
+                    binding.ureabunInput.setText(String.format("%.1f", convertedUreaBUN))
+                }
+
+                binding.ureabunInput.setSelection(binding.ureabunInput.text?.length ?: 0)
+
+            }
+            true
+        }
+        binding.ureabunInput.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                if (!isValidUreaBUN) {
+                    binding.ureabunTIL.boxBackgroundColor = errorInputBackgroundColor
+                    if (isBUNToBeInputted) {
+                        binding.ureabunTIL.hint = "BUN ⚠"
+                    } else {
+                        binding.ureabunTIL.hint = "Urea ⚠"
+                    }
+                } else {
+                    binding.ureabunTIL.boxBackgroundColor = defaultInputBackgroundColor
+                    if (isBUNToBeInputted) {
+                        binding.ureabunTIL.hint = "BUN"
+                    } else {
+                        binding.ureabunTIL.hint = "Urea"
+                    }
+                }
+            } else {
+                binding.ureabunTIL.boxBackgroundColor = defaultInputBackgroundColor
+                if (isBUNToBeInputted) {
+                    binding.ureabunTIL.hint = "BUN"
+                } else {
+                    binding.ureabunTIL.hint = "Urea"
+                }
+            }
+        }
+        setUreaBUNFieldDynamics(binding.ureabunInput)
+
+        binding.po4Input.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(
+                s: CharSequence?, start: Int, count: Int, after: Int
+            ) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                iPhosphorus = s.toString()
+
+                if (iPhosphorus.isNotEmpty()) { // If Age field is not empty, containing no String
+
+                    try { // Set Patient Age
+                        if (isValidated("Phosphorus", iPhosphorus)) {
+                            lastPotentialPhosphorus = iPhosphorus
+
+                            if (isPhosphorusMg && iPhosphorus.toDouble() in 0.1..15.0) {
+                                patient.phosphorus = iPhosphorus.toDouble()
+                                isValidPhosphorus = true
+                            } else if (!isPhosphorusMg && iPhosphorus.toDouble() in 0.05..5.0) {
+                                patient.phosphorus =
+                                    iPhosphorus.toDouble().div(0.3229) // Convert mmol/L to mg/dL
+                                isValidPhosphorus = true
+                            } else {
+                                // Set Error
+                                isValidPhosphorus = false
+                            }
+                        } else {
+                            if (isPhosphorusMg && iPhosphorus.matches(invalidRxToBeginWith2.toRegex())) {
+                                lastPotentialPhosphorus = ""
+                                binding.po4Input.setText(lastPotentialPhosphorus)
+                            } else {
+                                binding.po4Input.setText(lastPotentialPhosphorus)
+                                binding.po4Input.setSelection(iPhosphorus.length) // Move cursor to the end
+                            }
+                            isValidPhosphorus = true
+                        }
+                    } catch (_: Exception) {
+                    }
+                } else if (iPhosphorus.isEmpty()) {
+                    patient.phosphorus = 0.0
+                    lastPotentialPhosphorus = ""
+                    isValidPhosphorus = true
+                }
+                displayManagement()
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+        binding.po4Input.setOnLongClickListener {
+            if (binding.po4Input.hasFocus()) {
+
+                // Toggle the unit
+                isPhosphorusMg = !isPhosphorusMg
+
+
+                locallyStoredAppSettingsFile.edit().putBoolean("isPhosphorusMg", isPhosphorusMg)
+                    .apply()
+                // Update the hint and suffix text based on the unit
+                if (isPhosphorusMg) {
+                    binding.po4TIL.suffixText = "mg/dL"
+                } else {
+                    binding.po4TIL.suffixText = "mmol/L"
+                }
+
+                // Convert the entered PO4 to the new unit
+                val enteredPO4 = binding.po4Input.text.toString().toDoubleOrNull()
+                val convertedPO4 = if (isPhosphorusMg) {
+                    enteredPO4?.div(0.3229)
+                } else {
+                    enteredPO4?.times(0.3229)
+                }
+
+                // Update the text in the input field
+                if (convertedPO4 != null) {
+                    if (isPhosphorusMg) {
+                        binding.po4Input.setText(String.format("%.2f", convertedPO4))
+                    } else {
+                        binding.po4Input.setText(String.format("%.2f", convertedPO4))
+                    }
+                }
+                binding.po4Input.setSelection(binding.po4Input.text?.length ?: 0)
+            }
+            true
+        }
+        binding.po4Input.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                if (!isValidPhosphorus) {
+                    binding.po4TIL.boxBackgroundColor = errorInputBackgroundColor
+                    binding.po4TIL.hint = "PO₄³⁻ ⚠"
+                } else {
+                    binding.po4TIL.boxBackgroundColor = defaultInputBackgroundColor
+                    binding.po4TIL.hint = "PO₄³⁻"
+                }
+            } else {
+                binding.po4TIL.boxBackgroundColor = defaultInputBackgroundColor
+                binding.po4TIL.hint = "PO₄³⁻"
+            }
+        }
+
+        binding.mgInput.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(
+                s: CharSequence?, start: Int, count: Int, after: Int
+            ) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                iMagnesium = s.toString()
+
+                if (iMagnesium.isNotEmpty()) { // If Age field is not empty, containing no String
+
+                    try { // Set Patient Age
+                        if (isValidated("Magnesium", iMagnesium)) {
+                            lastPotentialMagnesium = iMagnesium
+
+                            if (isMagnesiumMg && iMagnesium.toDouble() in 0.1..20.0) {
+                                patient.magnesium = iMagnesium.toDouble()
+                                isValidMagnesium = true
+                            } else if (!isMagnesiumMg && iMagnesium.toDouble() in 0.1..10.0) {
+                                patient.magnesium =
+                                    iMagnesium.toDouble().div(0.41152) // Convert mmol/L to mg/dL
+                                isValidMagnesium = true
+                            } else {
+                                // Set Error
+                                isValidMagnesium = false
+                            }
+                        } else {
+                            if (isMagnesiumMg && iMagnesium.matches(invalidRxToBeginWith2.toRegex())) {
+                                lastPotentialMagnesium = ""
+                                binding.mgInput.setText(lastPotentialMagnesium)
+                            } else {
+                                binding.mgInput.setText(lastPotentialMagnesium)
+                                binding.mgInput.setSelection(iMagnesium.length) // Move cursor to the end
+                            }
+                            isValidMagnesium = true
+                        }
+                    } catch (_: Exception) {
+                    }
+                } else if (iMagnesium.isEmpty()) {
+                    patient.magnesium = 0.0
+                    lastPotentialMagnesium = ""
+                    isValidMagnesium = true
+                }
+                displayManagement()
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+        binding.mgInput.setOnLongClickListener {
+            if (binding.mgInput.hasFocus()) {
+
+                // Toggle the unit
+                isMagnesiumMg = !isMagnesiumMg
+
+
+                locallyStoredAppSettingsFile.edit().putBoolean("isMagnesiumMg", isMagnesiumMg)
+                    .apply()
+
+                // Update the hint and suffix text based on the unit
+                if (isMagnesiumMg) {
+                    binding.mgTIL.suffixText = "mg/dL"
+                } else {
+                    binding.mgTIL.suffixText = "mmol/L"
+                }
+
+                // Convert the entered PO4 to the new unit
+                val enteredMg = binding.mgInput.text.toString().toDoubleOrNull()
+                val convertedMg = if (isMagnesiumMg) {
+                    enteredMg?.div(0.41152)
+                } else {
+                    enteredMg?.times(0.41152)
+                }
+
+                // Update the text in the input field
+                if (convertedMg != null) {
+                    if (isMagnesiumMg) {
+                        binding.mgInput.setText(String.format("%.2f", convertedMg))
+                    } else {
+                        binding.mgInput.setText(String.format("%.2f", convertedMg))
+                    }
+                }
+
+                binding.mgInput.setSelection(binding.mgInput.text?.length ?: 0)
+
+            }
+            true
+        }
+        binding.mgInput.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                if (!isValidMagnesium) {
+                    binding.mgTIL.boxBackgroundColor = errorInputBackgroundColor
+                    binding.mgTIL.hint = "Mg²⁺ ⚠"
+                } else {
+                    binding.mgTIL.boxBackgroundColor = defaultInputBackgroundColor
+                    binding.mgTIL.hint = "Mg²⁺"
+                }
+            } else {
+                binding.mgTIL.boxBackgroundColor = defaultInputBackgroundColor
+                binding.mgTIL.hint = "Mg²⁺"
+            }
+        }
+
+        binding.calInput.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(
+                s: CharSequence?, start: Int, count: Int, after: Int
+            ) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                iCalcium = s.toString()
+
+                if (iCalcium.isNotEmpty()) { // If Calcium field is not empty, containing no String
+
+                    try { // Set Patient Age
+                        if (isValidated("Calcium", iCalcium)) {
+                            lastPotentialCalcium = iCalcium
+
+                            if (isCalciumMg && iCalcium.toDouble() in 1.0..25.0) {
+                                patient.calcium = iCalcium.toDouble()
+                                isValidCalcium = true
+                            } else if (!isCalciumMg && iCalcium.toDouble() in 0.05..5.0) {
+                                patient.calcium =
+                                    iCalcium.toDouble().div(0.25) // Convert mmol/L to mg/dL
+                                isValidCalcium = true
+                            } else {
+                                // Set Error
+                                isValidCalcium = false
+                            }
+                        } else {
+                            if (isCalciumMg && iCalcium.matches(invalidRxToBeginWith2.toRegex())) {
+                                lastPotentialCalcium = ""
+                                binding.calInput.setText(lastPotentialCalcium)
+                            } else {
+                                binding.calInput.setText(lastPotentialCalcium)
+                                binding.calInput.setSelection(iCalcium.length) // Move cursor to the end
+                            }
+                            isValidCalcium = true
+                        }
+                    } catch (_: Exception) {
+                    }
+                } else if (iCalcium.isEmpty()) {
+                    patient.calcium = 0.0
+                    lastPotentialCalcium = ""
+                    isValidCalcium = true
+                }
+                displayManagement()
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+        binding.calInput.setOnLongClickListener {
+            if (binding.calInput.hasFocus()) {
+
+                // Toggle the unit
+                isCalciumMg = !isCalciumMg
+
+
+                locallyStoredAppSettingsFile.edit().putBoolean("isCalciumMg", isCalciumMg).apply()
+                // Update the hint and suffix text based on the unit
+                if (isCalciumMg) {
+                    binding.calTIL.suffixText = "mg/dL"
+                } else {
+                    binding.calTIL.suffixText = "mmol/L"
+                }
+
+                // Convert the entered PO4 to the new unit
+                val enteredCal = binding.calInput.text.toString().toDoubleOrNull()
+                val convertedCal = if (isCalciumMg) {
+                    enteredCal?.div(0.25)
+                } else {
+                    enteredCal?.times(0.25)
+                }
+
+                // Update the text in the input field
+                if (convertedCal != null) {
+                    if (isCalciumMg) {
+                        binding.calInput.setText(String.format("%.2f", convertedCal))
+                    } else {
+                        binding.calInput.setText(String.format("%.2f", convertedCal))
+                    }
+                }
+                binding.calInput.setSelection(binding.calInput.text?.length ?: 0)
+            }
+            true
+        }
+        binding.calInput.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                if (!isValidCalcium) {
+                    binding.calTIL.boxBackgroundColor = errorInputBackgroundColor
+                    binding.calTIL.hint = "Ca²⁺ ⚠"
+                } else {
+                    binding.calTIL.boxBackgroundColor = defaultInputBackgroundColor
+                    binding.calTIL.hint = "Ca²⁺"
+                }
+            } else {
+                binding.calTIL.boxBackgroundColor = defaultInputBackgroundColor
+                binding.calTIL.hint = "Ca²⁺"
+            }
+        }
+
         binding.sodInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(
-                s: CharSequence?,
-                start: Int,
-                count: Int,
-                after: Int
+                s: CharSequence?, start: Int, count: Int, after: Int
             ) {
             }
 
@@ -1033,10 +1139,7 @@ open class MainFragment : Fragment() {
 
         binding.chlInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(
-                s: CharSequence?,
-                start: Int,
-                count: Int,
-                after: Int
+                s: CharSequence?, start: Int, count: Int, after: Int
             ) {
             }
 
@@ -1106,10 +1209,7 @@ open class MainFragment : Fragment() {
 
         binding.albuminInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(
-                s: CharSequence?,
-                start: Int,
-                count: Int,
-                after: Int
+                s: CharSequence?, start: Int, count: Int, after: Int
             ) {
             }
 
@@ -1119,7 +1219,7 @@ open class MainFragment : Fragment() {
                 if (iAlbumin.isNotEmpty()) { // If Age field is not empty, containing no String
 
                     try { // Set Patient Age
-                        if (isValidated("Albumin", iAlbumin) && !isAlbuminBeingConverted) {
+                        if (isValidated("Albumin", iAlbumin)) {
                             lastPotentialAlbumin = iAlbumin
 
                             if (isAlbuminGDL && iAlbumin.toDouble() in 1.0..7.0) {
@@ -1145,12 +1245,10 @@ open class MainFragment : Fragment() {
                         }
                     } catch (_: Exception) {
                     }
-                } else if (iAlbumin.isEmpty() && !isAlbuminBeingConverted) {
+                } else if (iAlbumin.isEmpty()) {
                     patient.albumin = 0.0
                     lastPotentialAlbumin = ""
                     isValidAlbumin = true
-                } else {
-                    isAlbuminBeingConverted = false
                 }
                 displayManagement()
             }
@@ -1163,9 +1261,7 @@ open class MainFragment : Fragment() {
                 // Toggle the unit
                 isAlbuminGDL = !isAlbuminGDL
 
-                locallyStoredAppSettingsFile.edit()
-                    .putBoolean("isAlbuminGDL", isAlbuminGDL)
-                    .apply()
+                locallyStoredAppSettingsFile.edit().putBoolean("isAlbuminGDL", isAlbuminGDL).apply()
 
                 // Update the hint and suffix text based on the unit
                 if (isAlbuminGDL) {
@@ -1211,10 +1307,7 @@ open class MainFragment : Fragment() {
 
         binding.pHInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(
-                s: CharSequence?,
-                start: Int,
-                count: Int,
-                after: Int
+                s: CharSequence?, start: Int, count: Int, after: Int
             ) {
             }
 
@@ -1280,39 +1373,13 @@ open class MainFragment : Fragment() {
             }
         }
 
-
-
-
-
-
-
-binding.patientNameInput.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(
-                s: CharSequence?,
-                start: Int,
-                count: Int,
-                after: Int
-            ) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    try { // Set Patient Age
-                        locallyStoredAppSettingsFile.edit()
-                        .putString("patientName", s.toString())
-                        .apply()
-                    } catch (_: Exception) { }
-            }
-
-            override fun afterTextChanged(s: Editable?) {}
-        })
         binding.pCO2Input.setOnLongClickListener {
             if (binding.pCO2Input.hasFocus()) {
 
                 // Toggle the unit
                 patient.ispCO2kPa = !patient.ispCO2kPa
 
-                locallyStoredAppSettingsFile.edit()
-                    .putBoolean("ispCO2kPa", patient.ispCO2kPa)
+                locallyStoredAppSettingsFile.edit().putBoolean("ispCO2kPa", patient.ispCO2kPa)
                     .apply()
 
                 // Update the hint and suffix text based on the unit
@@ -1342,16 +1409,9 @@ binding.patientNameInput.addTextChangedListener(object : TextWatcher {
             }
             true
         }
-
-
-
-
         binding.pCO2Input.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(
-                s: CharSequence?,
-                start: Int,
-                count: Int,
-                after: Int
+                s: CharSequence?, start: Int, count: Int, after: Int
             ) {
             }
 
@@ -1361,7 +1421,7 @@ binding.patientNameInput.addTextChangedListener(object : TextWatcher {
                 if (ipCO2.isNotEmpty()) { // If Age field is not empty, containing no String
 
                     try { // Set Patient Age
-                        if (isValidated("pCO2", ipCO2) && !ispCO2BeingConverted) {
+                        if (isValidated("pCO2", ipCO2)) {
                             lastPotentialpCO2 = ipCO2
 
                             if (!patient.ispCO2kPa && ipCO2.toDouble() in 10.0..160.0) {
@@ -1387,12 +1447,10 @@ binding.patientNameInput.addTextChangedListener(object : TextWatcher {
                         }
                     } catch (_: Exception) {
                     }
-                } else if (ipCO2.isEmpty() && !ispCO2BeingConverted) {
+                } else if (ipCO2.isEmpty()) {
                     patient.pCO2 = 0.0
                     lastPotentialpCO2 = ""
                     isValidpCO2 = true
-                } else {
-                    ispCO2BeingConverted = false
                 }
                 displayManagement()
             }
@@ -1405,8 +1463,7 @@ binding.patientNameInput.addTextChangedListener(object : TextWatcher {
                 // Toggle the unit
                 patient.ispCO2kPa = !patient.ispCO2kPa
 
-                locallyStoredAppSettingsFile.edit()
-                    .putBoolean("ispCO2kPa", patient.ispCO2kPa)
+                locallyStoredAppSettingsFile.edit().putBoolean("ispCO2kPa", patient.ispCO2kPa)
                     .apply()
 
                 // Update the hint and suffix text based on the unit
@@ -1453,10 +1510,7 @@ binding.patientNameInput.addTextChangedListener(object : TextWatcher {
 
         binding.cHCO3Input.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(
-                s: CharSequence?,
-                start: Int,
-                count: Int,
-                after: Int
+                s: CharSequence?, start: Int, count: Int, after: Int
             ) {
             }
 
@@ -1536,8 +1590,7 @@ binding.patientNameInput.addTextChangedListener(object : TextWatcher {
     private fun setResultPanelDynamics() {
         audioManager = requireContext().getSystemService(Context.AUDIO_SERVICE) as AudioManager
 
-        inactivePlanColor =
-            ContextCompat.getColor(requireContext(), R.color.inactiveResultState)
+        inactivePlanColor = ContextCompat.getColor(requireContext(), R.color.inactiveResultState)
         activePlanColor = ContextCompat.getColor(requireContext(), R.color.activeResultState)
 
         dpOfDevice = requireContext().resources.displayMetrics.density
@@ -1569,8 +1622,6 @@ binding.patientNameInput.addTextChangedListener(object : TextWatcher {
                 binding.timelineInactiveBar.layoutParams.height = binding.dynamicResultPanel.height
                 binding.timelineInactiveBar.requestLayout()
             }
-
-
         }
 
         binding.dayOneTitle.setOnClickListener {
@@ -1618,16 +1669,14 @@ binding.patientNameInput.addTextChangedListener(object : TextWatcher {
     private fun tapOpenAcidBaseCalculator() {
         if (!isAcidBaseCalculatorShown) {
             // Rotate 180 degrees clockwise
-            ObjectAnimator.ofFloat(binding.chevAcidBase, "rotation", 0f, 180f)
-                .start()
+            ObjectAnimator.ofFloat(binding.chevAcidBase, "rotation", 0f, 180f).start()
             binding.lnAGAcidBaseCalculator.visibility = View.VISIBLE
             binding.calInput.imeOptions = EditorInfo.IME_ACTION_NEXT
             binding.calInput.nextFocusDownId = binding.sodInput.id
-            
+
         } else {
             // Rotate 180 degrees counterclockwise
-            ObjectAnimator.ofFloat(binding.chevAcidBase, "rotation", 180f, 0f)
-                .start()
+            ObjectAnimator.ofFloat(binding.chevAcidBase, "rotation", 180f, 0f).start()
             binding.lnAGAcidBaseCalculator.visibility = View.GONE
             binding.calInput.nextFocusDownId = View.NO_ID
             binding.calInput.imeOptions = EditorInfo.IME_ACTION_DONE
@@ -1711,9 +1760,7 @@ binding.patientNameInput.addTextChangedListener(object : TextWatcher {
                     //Toast.makeText(requireContext(), "You lift your finger off screen", Toast.LENGTH_SHORT).show()
                     // Return the LinearLayout to its original position when the user lifts his finger
 
-                    binding.lnCalculator.animate()
-                        .y(defaultCalculatorY)
-                        .setDuration(0)
+                    binding.lnCalculator.animate().y(defaultCalculatorY).setDuration(0)
                         .start() // Return to original position
 
                     binding.tvReset.visibility = View.INVISIBLE
@@ -1722,7 +1769,7 @@ binding.patientNameInput.addTextChangedListener(object : TextWatcher {
                         // If user move reaches the target distance of 75f, reset the input field
                         //binding.ageInput.text = null
                         //binding.weightInput.text = null
-                        
+
                         binding.rbsInput.text = null
                         binding.po4Input.text = null
                         binding.mgInput.text = null
@@ -1769,14 +1816,14 @@ binding.patientNameInput.addTextChangedListener(object : TextWatcher {
                         binding.cHCO3TIL.boxBackgroundColor = defaultInputBackgroundColor
 
                         // Put the cursor inside the first field, the Age Text Input Field
-                        if (patient.age == 0){
+                        if (patient.age == 0) {
                             binding.ageInput.requestFocus()
-                        }else if (patient.weight == 0.0){
+                        } else if (patient.weight == 0.0) {
                             binding.weightInput.requestFocus()
-                        }else {
+                        } else {
                             binding.rbsInput.requestFocus()
                         }
-                            
+
                         // Force Display of Keyboard
                         val inputMethodManager =
                             activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -1852,8 +1899,10 @@ binding.patientNameInput.addTextChangedListener(object : TextWatcher {
                             val rotateLeft = RotateAnimation(
                                 180f,
                                 0f,
-                                Animation.RELATIVE_TO_SELF, 0.5f,
-                                Animation.RELATIVE_TO_SELF, 0.5f
+                                Animation.RELATIVE_TO_SELF,
+                                0.5f,
+                                Animation.RELATIVE_TO_SELF,
+                                0.5f
                             )
 
                             rotateLeft.duration = 300
@@ -1886,10 +1935,7 @@ binding.patientNameInput.addTextChangedListener(object : TextWatcher {
                             newY = defaultCalculatorY
                         }
 
-                        binding.lnCalculator.animate()
-                            .y(newY)
-                            .setDuration(0)
-                            .start()
+                        binding.lnCalculator.animate().y(newY).setDuration(0).start()
                     }
                 }
             }
@@ -1911,7 +1957,6 @@ binding.patientNameInput.addTextChangedListener(object : TextWatcher {
         setSwipeDelete(binding.pHInput)
         setSwipeDelete(binding.pCO2Input)
         setSwipeDelete(binding.cHCO3Input)
-        //setSwipeDelete(binding.patientNameInput)
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -1926,6 +1971,66 @@ binding.patientNameInput.addTextChangedListener(object : TextWatcher {
                 //Toast.makeText(requireContext(), "Swipe left gesture detected", Toast.LENGTH_SHORT).show()
             }
         })
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    protected fun setUreaBUNFieldDynamics(editText: EditText) {
+        editText.setOnTouchListener(object : OnSwipeTouchListener(requireContext()) {
+            override fun onSwipeLeft() {
+                super.onSwipeLeft()
+
+                editText.text = null
+                editText.requestFocus()
+                //Toast.makeText(requireContext(), "Swipe left gesture detected", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onDoubleClick() {
+                // Toggle the unit between mg/dL to mmol/L
+                isBUNToBeInputted = !isBUNToBeInputted
+
+                locallyStoredAppSettingsFile.edit()
+                    .putBoolean("isBUNToBeInputted", isBUNToBeInputted).apply()
+                // Update the hint and suffix text based on the unit
+                if (isUreaBUNMg) {
+                    binding.ureabunTIL.suffixText = "mg/dL"
+                } else {
+                    binding.ureabunTIL.suffixText = "mmol/L"
+                }
+
+                if (isBUNToBeInputted) {
+                    binding.ureabunTIL.hint = "BUN"
+                } else {
+                    binding.ureabunTIL.hint = "Urea"
+                }
+
+                // Convert the entered PO4 to the new unit
+                val enteredUreaBUN = editText.text.toString().toDoubleOrNull()
+                val convertedUreaBUN = if (isBUNToBeInputted) {// Urea to BUN
+                    if (isUreaBUNMg) {// if we convert BUN mmol/L to mg/dL
+                        (enteredUreaBUN?.div(6.0))?.div(0.357)
+                    } else {// if we convert Urea from mmol/L to mg/dL
+                        enteredUreaBUN
+                    }
+                } else {// BUN to Urea
+                    if (isUreaBUNMg) {// if we convert BUN mg/dL to mmol/L
+                        enteredUreaBUN?.times(0.3571)?.times(6.0)
+                    } else {// if we convert Urea mg/dL to mmol/L
+                        enteredUreaBUN
+                    }
+                }
+
+                // Update the text in the input field
+                if (convertedUreaBUN != null) {
+                    binding.ureabunInput.setText(String.format("%.1f", convertedUreaBUN))
+                }
+
+                binding.ureabunInput.setSelection(binding.ureabunInput.text?.length ?: 0)
+
+                editText.requestFocus()
+            }
+        })
+
+
     }
     //endregion
 
@@ -1984,6 +2089,45 @@ binding.patientNameInput.addTextChangedListener(object : TextWatcher {
                 }
             }
 
+            "Potassium" -> {
+                // Initially Allowing for Entering From 1 mg/dL Up To 9 mg/dL, Allowing 1 For Expecting User to Enter 10 mg/dL in Next Steps
+                vSL1 = "^([0-9])$"
+                // Initially Allowing for 0. to 15
+                vSL2 = "^([0-9][.]|[1][0-4]|15)$"
+                // Allowing From 0.1 to 15.
+                vSL3 = "^(0[.][1-9]|[1-9][.][0-9]|[1][0-4][.]|15[.])$"
+                // Allowing From 0.1 to 15.0
+                vSL4 = "^(0[.][1-9][0-9]|[1-9][.][0-9][0-9]|[1][0-4][.][0-9]|15[.]0)$"
+            }
+
+            "UreaBUN" -> {
+                if (isUreaBUNMg) {
+                    // Initially Allowing for Entering From 1 mg/dL Up To 9 mg/dL, Allowing 1 For Expecting User to Enter 10 mg/dL in Next Steps
+                    vSL1 = "^([1-9])$"
+                    // Initially Allowing for Entering From 10 mg/dL Up To 99 mg/dL, Allowing 10 For Expecting User to Enter 100 mg/dL in Next Step
+                    vSL2 = "^([1-9][.]|[1-9][0-9])$"
+                    // Allowing From up to 600
+                    vSL3 = "^([1-9][.][0-9]|[1-9][0-9][.]|[1-5][0-9][0-9]|600)$"
+                    // Allowing From up to 600.
+                    vSL4 = "^([1-9][.][0-9][0-9]|[1-9][0-9][.][0-9]|[1-5][0-9][0-9][.]|600.)$"
+                    // Allowing From up to 600.0
+                    vSL5 =
+                        "^([1-9][.][0-9][0-9][0-9]|[1-9][0-9][.][0-9][0-9]|[1-5][0-9][0-9][.][0-9]|600.0)$"
+                } else {
+                    // Initially Allowing for Entering From 1 mg/dL Up To 9 mg/dL, Allowing 1 For Expecting User to Enter 10 mg/dL in Next Steps
+                    vSL1 = "^([1-9])$"
+                    // Initially Allowing for Entering From 10 mg/dL Up To 99 mg/dL, Allowing 10 For Expecting User to Enter 100 mg/dL in Next Step
+                    vSL2 = "^([1-9][.]|[1-9][0-9])$"
+                    // Allowing From up to 600
+                    vSL3 = "^([1-9][.][0-9]|[1-9][0-9][.]|[1-2][0-9][0-9]|300)$"
+                    // Allowing From up to 600.
+                    vSL4 = "^([1-9][.][0-9][0-9]|[1-9][0-9][.][0-9]|[1-2][0-9][0-9][.]|300.)$"
+                    // Allowing From up to 600.0
+                    vSL5 =
+                        "^([1-9][.][0-9][0-9][0-9]|[1-9][0-9][.][0-9][0-9]|[1-2][0-9][0-9][.][0-9]|300.0)$"
+                }
+            }
+
             "Phosphorus" -> {
                 if (isPhosphorusMg) {
                     // Initially Allowing for Entering From 1 mg/dL Up To 9 mg/dL, Allowing 1 For Expecting User to Enter 10 mg/dL in Next Steps
@@ -2003,28 +2147,6 @@ binding.patientNameInput.addTextChangedListener(object : TextWatcher {
                     vSL3 = "^([0-4][.][0-9]|5.0)$"
                     // Allowing From 0.05 to 5.00
                     vSL4 = "^(0[.]0[5-9]|[0-4].[0-9][0-9]|5[.]00)$"
-                }
-            }
-            
-              "Calcium" -> {
-                if (isCalciumMg) {
-                    // Initially Allowing for Entering From 0.1 mg/dL Up To 25 mg/dL
-                    vSL1 = "^([0-9])$"
-                    // Initially Allowing for 0. to 25
-                    vSL2 = "^([0-9][.]|[1][0-9]|[2][0-5])$"
-                    // Allowing From 0.1 to 25.
-                    vSL3 = "^(0[.][1-9]|[1-9][.][0-9]|1[0-9][.]|[2][0-5][.])$"
-                    // Allowing From 0.1 to 25.0
-                    vSL4 = "^(0[.][1-9][0-9]|[1-9][.][0-9][0-9]|1[0-9][.][0-9]|[2][0-5][.][0-9])$"
-                } else {
-                    // Initially Allowing for Entering From 0.05 Up To 6 
-                    vSL1 = "^([0-6])$"
-                    // Initially Allowing for Entering From 0 to 5
-                    vSL2 = "^([0-6][.])$"
-                    // Allowing From 0. to 5.
-                    vSL3 = "^([0-5][.][0-9]|6.0)$"
-                    // Allowing From 0.05 to 5.00
-                    vSL4 = "^(0[.]0[5-9]|[0-5].[0-9][0-9]|6[.]00)$"
                 }
             }
 
@@ -2050,15 +2172,26 @@ binding.patientNameInput.addTextChangedListener(object : TextWatcher {
                 }
             }
 
-            "Potassium" -> {
-                // Initially Allowing for Entering From 1 mg/dL Up To 9 mg/dL, Allowing 1 For Expecting User to Enter 10 mg/dL in Next Steps
-                vSL1 = "^([0-9])$"
-                // Initially Allowing for 0. to 15
-                vSL2 = "^([0-9][.]|[1][0-4]|15)$"
-                // Allowing From 0.1 to 15.
-                vSL3 = "^(0[.][1-9]|[1-9][.][0-9]|[1][0-4][.]|15[.])$"
-                // Allowing From 0.1 to 15.0
-                vSL4 = "^(0[.][1-9][0-9]|[1-9][.][0-9][0-9]|[1][0-4][.][0-9]|15[.]0)$"
+            "Calcium" -> {
+                if (isCalciumMg) {
+                    // Initially Allowing for Entering From 0.1 mg/dL Up To 25 mg/dL
+                    vSL1 = "^([0-9])$"
+                    // Initially Allowing for 0. to 25
+                    vSL2 = "^([0-9][.]|[1][0-9]|[2][0-5])$"
+                    // Allowing From 0.1 to 25.
+                    vSL3 = "^(0[.][1-9]|[1-9][.][0-9]|1[0-9][.]|[2][0-5][.])$"
+                    // Allowing From 0.1 to 25.0
+                    vSL4 = "^(0[.][1-9][0-9]|[1-9][.][0-9][0-9]|1[0-9][.][0-9]|[2][0-5][.][0-9])$"
+                } else {
+                    // Initially Allowing for Entering From 0.05 Up To 6
+                    vSL1 = "^([0-6])$"
+                    // Initially Allowing for Entering From 0 to 5
+                    vSL2 = "^([0-6][.])$"
+                    // Allowing From 0. to 5.
+                    vSL3 = "^([0-5][.][0-9]|6.0)$"
+                    // Allowing From 0.05 to 5.00
+                    vSL4 = "^(0[.]0[5-9]|[0-5].[0-9][0-9]|6[.]00)$"
+                }
             }
 
             "Sodium" -> {
@@ -2168,9 +2301,10 @@ binding.patientNameInput.addTextChangedListener(object : TextWatcher {
     private fun setAppSettings() {
         locallyStoredAppSettingsFile =
             requireActivity().getSharedPreferences("DKAAssistant", Context.MODE_PRIVATE)
-           
-        binding.patientNameInput.text = Editable.Factory.getInstance().newEditable(locallyStoredAppSettingsFile.getString("patientName", ""))
-        
+
+        binding.patientNameInput.text = Editable.Factory.getInstance()
+            .newEditable(locallyStoredAppSettingsFile.getString("patientName", ""))
+
         val storedAgeString = locallyStoredAppSettingsFile.getString("patientAge", "")
         val storedAge = Editable.Factory.getInstance().newEditable(storedAgeString)
 
@@ -2185,11 +2319,21 @@ binding.patientNameInput.addTextChangedListener(object : TextWatcher {
             }
         }
 
-        val storedWeightString = locallyStoredAppSettingsFile.getString("patientWeight", "")
-        val storedWeight = Editable.Factory.getInstance().newEditable(storedWeightString)
+        isWeightKg = locallyStoredAppSettingsFile.getBoolean(
+            "isWeightKg", true
+        ) // true is default value for isWeightKgSP if it was empty
 
-        binding.weightInput.text = Editable.Factory.getInstance().newEditable(locallyStoredAppSettingsFile.getString("patientWeight", ""))
-        
+        // Update the hint and suffix text based on the unit
+        if (isWeightKg) {
+            binding.weightLabel.text = "Kg"
+        } else {
+            binding.weightLabel.text = "lbs"
+        }
+
+        val storedWeightString = locallyStoredAppSettingsFile.getString("patientWeight", "")
+
+        binding.weightInput.text = Editable.Factory.getInstance().newEditable(storedWeightString)
+
         storedWeightString?.let {
             if (it.isNotEmpty()) {
                 val weight = it.toDoubleOrNull()
@@ -2198,20 +2342,12 @@ binding.patientNameInput.addTextChangedListener(object : TextWatcher {
                 }
             }
         }
-        
-        isWeightKg = locallyStoredAppSettingsFile.getBoolean(
-            "isWeightKg", true
-        ) // true is default value for isWeightKgSP if it was empty
 
-        // Update the hint and suffix text based on the unit
-        if (isWeightKg) {
-            binding.weightLabel.text= "Kg"
-        } else {
-            binding.weightLabel.text = "lbs"
-        }
+
 
         isRBSMg = locallyStoredAppSettingsFile.getBoolean(
-            "isRBSMg", true
+            "isRBSMg",
+            true
         ) // true is default value for isWeightKgSP if it was empty
 
         // Update the hint and suffix text based on the unit
@@ -2219,6 +2355,21 @@ binding.patientNameInput.addTextChangedListener(object : TextWatcher {
             binding.rbsTIL.suffixText = "mg/dL"
         } else {
             binding.rbsTIL.suffixText = "mmol/L"
+        }
+
+        isBUNToBeInputted = locallyStoredAppSettingsFile.getBoolean("isBUNToBeInputted", true)
+        isUreaBUNMg = locallyStoredAppSettingsFile.getBoolean("isUreaBUNMg", true)
+
+        if (isUreaBUNMg) {
+            binding.ureabunTIL.suffixText = "mg/dL"
+        } else {
+            binding.ureabunTIL.suffixText = "mmol/L"
+        }
+
+        if (isBUNToBeInputted) {
+            binding.ureabunTIL.hint = "BUN"
+        } else {
+            binding.ureabunTIL.hint = "Urea"
         }
 
         isPhosphorusMg = locallyStoredAppSettingsFile.getBoolean(
@@ -2277,12 +2428,12 @@ binding.patientNameInput.addTextChangedListener(object : TextWatcher {
         } else {
             binding.pCO2TIL.suffixText = "mmHg"
         }
-        
-        if (patient.age == 0){
+
+        if (patient.age == 0) {
             binding.ageInput.requestFocus()
-        }else if (patient.weight == 0.0){
+        } else if (patient.weight == 0.0) {
             binding.weightInput.requestFocus()
-        }else {
+        } else {
             binding.rbsInput.requestFocus()
         }
     }
@@ -2439,12 +2590,10 @@ binding.patientNameInput.addTextChangedListener(object : TextWatcher {
 
         // Create ValueAnimators to animate the height of both views
         val dayOneAnimator = ValueAnimator.ofInt(
-            initialHeightOfDayOneResult,
-            finalHeightOfDayOneResult.toInt()
+            initialHeightOfDayOneResult, finalHeightOfDayOneResult.toInt()
         )
         val timelineInactiveBarAnimator = ValueAnimator.ofFloat(
-            initialHeightOfTimelineInactiveBar,
-            finalHeightOfTimelineInactiveBar
+            initialHeightOfTimelineInactiveBar, finalHeightOfTimelineInactiveBar
         )
         val timelineActiveBarAnimator =
             ValueAnimator.ofFloat(initialHeightOfTimelineActiveBar, finalHeightOfTimelineActiveBar)
@@ -2495,9 +2644,7 @@ binding.patientNameInput.addTextChangedListener(object : TextWatcher {
         val animatorSet = AnimatorSet()
 
         animatorSet.playTogether(
-            dayOneAnimator,
-            timelineInactiveBarAnimator,
-            timelineActiveBarAnimator
+            dayOneAnimator, timelineInactiveBarAnimator, timelineActiveBarAnimator
         )
 
         // Update the state
@@ -2556,12 +2703,10 @@ binding.patientNameInput.addTextChangedListener(object : TextWatcher {
 
         // Create ValueAnimators to animate the height of both views
         val dayTwoAnimator = ValueAnimator.ofInt(
-            initialHeightOfDayTwoResult,
-            finalHeightOfDayTwoResult.toInt()
+            initialHeightOfDayTwoResult, finalHeightOfDayTwoResult.toInt()
         )
         val timelineInactiveBarAnimator = ValueAnimator.ofFloat(
-            initialHeightOfTimelineInactiveBar,
-            finalHeightOfTimelineInactiveBar
+            initialHeightOfTimelineInactiveBar, finalHeightOfTimelineInactiveBar
         )
         val timelineActiveBarAnimator =
             ValueAnimator.ofFloat(initialHeightOfTimelineActiveBar, finalHeightOfTimelineActiveBar)
@@ -2603,9 +2748,7 @@ binding.patientNameInput.addTextChangedListener(object : TextWatcher {
         val animatorSet = AnimatorSet()
 
         animatorSet.playTogether(
-            dayTwoAnimator,
-            timelineInactiveBarAnimator,
-            timelineActiveBarAnimator
+            dayTwoAnimator, timelineInactiveBarAnimator, timelineActiveBarAnimator
         )
 
         // Update the state
@@ -2664,12 +2807,10 @@ binding.patientNameInput.addTextChangedListener(object : TextWatcher {
 
         // Create ValueAnimators to animate the height of both views
         val dayThreeAnimator = ValueAnimator.ofInt(
-            initialHeightOfDayThreeResult,
-            finalHeightOfDayThreeResult.toInt()
+            initialHeightOfDayThreeResult, finalHeightOfDayThreeResult.toInt()
         )
         val timelineInactiveBarAnimator = ValueAnimator.ofFloat(
-            initialHeightOfTimelineInactiveBar,
-            finalHeightOfTimelineInactiveBar
+            initialHeightOfTimelineInactiveBar, finalHeightOfTimelineInactiveBar
         )
         val timelineActiveBarAnimator =
             ValueAnimator.ofFloat(initialHeightOfTimelineActiveBar, finalHeightOfTimelineActiveBar)
@@ -2712,9 +2853,7 @@ binding.patientNameInput.addTextChangedListener(object : TextWatcher {
         val animatorSet = AnimatorSet()
 
         animatorSet.playTogether(
-            dayThreeAnimator,
-            timelineInactiveBarAnimator,
-            timelineActiveBarAnimator
+            dayThreeAnimator, timelineInactiveBarAnimator, timelineActiveBarAnimator
         )
 
         // Update the state
