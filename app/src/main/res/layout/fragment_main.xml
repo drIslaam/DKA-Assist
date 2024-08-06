@@ -30,11 +30,11 @@
                     android:id="@+id/ivNewPatient"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:src="@drawable/new_patient"
                     android:layout_gravity="center_vertical"
+                    android:importantForAccessibility="no"
                     android:paddingEnd="5dp"
-                    tools:ignore="RtlSymmetry"
-                    android:importantForAccessibility="no" />
+                    android:src="@drawable/new_patient"
+                    tools:ignore="RtlSymmetry" />
 
                 <EditText
                     android:id="@+id/patientNameInput"
@@ -717,11 +717,34 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
+                    <LinearLayout
+                        android:id="@+id/ABGDx"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_margin="15dp"
+                        android:background="#ececec"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvABGDx"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/made_tommy_reg"
+                            android:gravity="center"
+                            android:padding="10dp"
+                            android:text=""
+                            android:textSize="14dp"
+                            tools:ignore="HardcodedText,SpUsage" />
+
+                    </LinearLayout>
+
                     <!--Icons and Days Titles must be in RelativeLayout to be displayed over the timeline bar to make it progress and move freely -->
                     <RelativeLayout
                         android:id="@+id/dynamicResultPanel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_below="@+id/ABGDx"
                         android:layout_margin="15dp">
 
                         <!--Timeline Bar-->
@@ -1161,29 +1184,6 @@
 
                         </LinearLayout>
 
-                        <LinearLayout
-                            android:id="@+id/ln3"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/ln2"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_margin="15dp"
-                            android:layout_marginBottom="2dp"
-                            android:background="#ececec"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/tvABGDx"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/made_tommy_reg"
-                                android:gravity="center"
-                                android:padding="10dp"
-                                android:text=""
-                                android:textSize="14dp"
-                                tools:ignore="HardcodedText,SpUsage" />
-
-                        </LinearLayout>
 
                         <TextView
                             android:id="@+id/cr"

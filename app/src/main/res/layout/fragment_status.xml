@@ -65,7 +65,7 @@
             <LinearLayout
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:background="#FFFEFE"
+                android:background="#FBF9FA"
                 android:paddingStart="15dp"
                 android:id="@+id/profilePictureLinearlayout">
 

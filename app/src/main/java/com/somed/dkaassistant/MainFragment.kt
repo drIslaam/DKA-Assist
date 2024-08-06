@@ -37,6 +37,7 @@ import com.somed.dkaassistant.databinding.FragmentMainBinding
 import androidx.core.content.ContextCompat
 import android.media.AudioManager
 import androidx.core.content.res.ResourcesCompat
+import androidx.databinding.adapters.AutoCompleteTextViewBindingAdapter.IsValid
 
 open class MainFragment : Fragment() {
 
@@ -172,6 +173,8 @@ open class MainFragment : Fragment() {
     private var activePlanColor = 0
     private var inactivePlanColor = 0
     private lateinit var audioManager: AudioManager
+
+    var isABGDxShown = false
     //endregion
 
     @SuppressLint("SetTextI18n")
@@ -192,13 +195,12 @@ open class MainFragment : Fragment() {
 
 
 
-
         return binding.root
     }
 
     @SuppressLint("SetTextI18n")
     fun displayManagement() {
-
+        patient.abgDx = "invalid"
         patient.getABGDx()
         patient.getDKAManagement()
 
@@ -221,6 +223,7 @@ open class MainFragment : Fragment() {
         }
 
         if (patient.abgDx != "") {
+            showABGDx()
             binding.tvABGDx.text = highlightABGDx(
                 "\n cHCO₃: ${"%.2f".format(patient.cHCO3)} | AG: ${"%.2f".format(patient.cAG)} | Δ/Δ: ${
                     "%.2f".format(
@@ -228,11 +231,13 @@ open class MainFragment : Fragment() {
                     )
                 } | Δ-Δ: ${"%.2f".format(patient.deltaGap)} \n\n ${patient.abgDx}\n"
             )
+
         } else {
+            if (isABGDxShown) {
+                hideABGDx()
+            }
             binding.tvABGDx.text = ""
         }
-
-
     }
 
     private fun iToast(message: String) {
@@ -249,9 +254,10 @@ open class MainFragment : Fragment() {
             binding.ageInput.text = null
             binding.weightInput.text = null
             binding.rbsInput.text = null
+            binding.potInput.text = null
+            binding.ureabunInput.text = null
             binding.po4Input.text = null
             binding.mgInput.text = null
-            binding.potInput.text = null
             binding.calInput.text = null
             binding.sodInput.text = null
             binding.chlInput.text = null
@@ -1771,9 +1777,10 @@ open class MainFragment : Fragment() {
                         //binding.weightInput.text = null
 
                         binding.rbsInput.text = null
+                        binding.potInput.text = null
+                        binding.ureabunInput.text = null
                         binding.po4Input.text = null
                         binding.mgInput.text = null
-                        binding.potInput.text = null
                         binding.calInput.text = null
                         binding.sodInput.text = null
                         binding.chlInput.text = null
@@ -2951,5 +2958,42 @@ open class MainFragment : Fragment() {
         val progressBarInactiveY = timelineInactiveBarLocation[1]
 
         return ((dayThreeTitleY - progressBarInactiveY) * 1.1).toInt() + binding.timelineInactiveBar.height
+    }
+
+    fun showABGDx(){
+            // Create ValueAnimators to animate the height of both views
+            val abgAnimator = ValueAnimator.ofInt(
+                0, 300
+            )
+            abgAnimator.duration = 500 // Duration in milliseconds
+            abgAnimator.interpolator = OvershootInterpolator()
+            abgAnimator.addUpdateListener { animation ->
+                val animatedValue = animation.animatedValue as Int
+                val layoutParams =
+                    binding.ABGDx.layoutParams as RelativeLayout.LayoutParams
+                layoutParams.height = animatedValue
+                binding.ABGDx.layoutParams = layoutParams
+            }
+            abgAnimator.start()
+            isABGDxShown = true
+isABGDxShown = true
+    }
+
+    fun hideABGDx(){
+        // Create ValueAnimators to animate the height of both views
+        val abgAnimator = ValueAnimator.ofInt(
+            300, 0
+        )
+        abgAnimator.duration = 500 // Duration in milliseconds
+        abgAnimator.interpolator = LinearInterpolator()
+        abgAnimator.addUpdateListener { animation ->
+            val animatedValue = animation.animatedValue as Int
+            val layoutParams =
+                binding.ABGDx.layoutParams as RelativeLayout.LayoutParams
+            layoutParams.height = animatedValue
+            binding.ABGDx.layoutParams = layoutParams
+        }
+        abgAnimator.start()
+        isABGDxShown = false
     }
 }
