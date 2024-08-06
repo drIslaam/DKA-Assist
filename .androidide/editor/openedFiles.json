@@ -1,0 +1,35 @@
+{
+  "allFiles": [
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/DKA Assistant/app/src/main/res/layout/fragment_status.xml",
+      "selection": {
+        "end": {
+          "column": 0,
+          "index": 0,
+          "line": 0
+        },
+        "start": {
+          "column": 0,
+          "index": 0,
+          "line": 0
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/DKA Assistant/app/src/main/res/layout/fragment_main.xml",
+      "selection": {
+        "end": {
+          "column": 66,
+          "index": 14972,
+          "line": 262
+        },
+        "start": {
+          "column": 66,
+          "index": 14972,
+          "line": 262
+        }
+      }
+    }
+  ],
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/DKA Assistant/app/src/main/res/layout/fragment_main.xml"
+}

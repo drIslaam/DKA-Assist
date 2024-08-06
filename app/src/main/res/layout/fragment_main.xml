@@ -1,0 +1,1199 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <!-- Define your data variables here -->
+    </data>
+
+    <!-- Your layout content goes here -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="15dp"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/patientNameInput"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/patient_name_bk"
+                    android:fontFamily="@font/made_tommy_med"
+                    android:hint="# Patient Name"
+                    android:importantForAutofill="no"
+                    android:inputType="text|textNoSuggestions"
+                    android:maxLines="1"
+                    android:maxLength="25"
+                    android:paddingStart="12dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="8dp"
+                    android:textColor="#787878"
+                    android:textSize="12dp"
+                    tools:ignore="HardcodedText,SpUsage" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="center_vertical|end"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/bio_bk"
+                android:gravity="center_vertical|end"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/ageInput"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:autofillHints="no"
+                    android:background="@android:color/transparent"
+                    android:fontFamily="@font/made_tommy_med"
+                    android:hint="0"
+                    android:nextFocusDown="@id/weightInput"
+                    android:inputType="number|textNoSuggestions"
+                    android:maxEms="25"
+                    android:maxLength="6"
+                    android:maxLines="1"
+                    android:importantForAutofill="no"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="2dp"
+                    android:textColor="#474747"
+                    android:textSize="20dp"
+                    tools:ignore="HardcodedText,SpUsage" />
+
+                <TextView
+                    android:id="@+id/ageLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/made_tommy_reg"
+                    android:gravity="center_vertical"
+                    android:paddingTop="2.5dp"
+                    android:text="Yrs"
+                    android:textColor="#AEABAB"
+                    android:textSize="12dp"
+                    tools:ignore="HardcodedText,RtlSymmetry,SpUsage" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/made_tommy_reg"
+                    android:gravity="center_vertical"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:text="|"
+                    android:textColor="#8E8E8E"
+                    tools:ignore="HardcodedText" />
+
+                <EditText
+                    android:id="@+id/weightInput"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:fontFamily="@font/made_tommy_med"
+                    android:hint="0"
+                    android:importantForAutofill="no"
+                    android:inputType="number|textNoSuggestions"
+                    android:maxLength="5"
+                    android:maxLines="1"
+                    android:paddingEnd="2dp"
+                    android:textColor="#474747"
+                    android:textSize="20dp"
+                    android:nextFocusDown="@id/rbsInput"
+
+                    tools:ignore="HardcodedText,RtlSymmetry,SpUsage" />
+
+                <TextView
+                    android:id="@+id/weightLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/made_tommy_reg"
+                    android:gravity="center_vertical"
+                    android:paddingTop="2.5dp"
+                    android:paddingEnd="12.5dp"
+                    android:text="Kg"
+                    android:textColor="#AEABAB"
+                    android:textSize="12dp"
+                    tools:ignore="HardcodedText,SpUsage" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <!--Refresh Icon and Text-->
+        <LinearLayout
+            android:id="@+id/tvReset"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="invisible">
+
+            <TextView
+                android:id="@+id/tvRefreshSymbol"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="-2dp"
+                android:gravity="center"
+                android:text="↺"
+                android:textColor="#9C9C9C"
+                android:textSize="18dp"
+                tools:ignore="HardcodedText,SpUsage" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text=" RELEASE FOR NEW CALCULATION"
+                android:textColor="#9C9C9C"
+                android:textSize="12dp"
+                tools:ignore="HardcodedText,SpUsage" />
+
+        </LinearLayout>
+
+        <!--Calculator and Result Panels-->
+        <RelativeLayout
+            android:id="@+id/lnCalculator"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="30dp">
+
+            <!--Data Entry Panel-->
+            <LinearLayout
+                android:id="@+id/lnBasicCalculator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="10dp">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginBottom="15dp"
+                    app:cardBackgroundColor="#FFFFFF"
+                    app:cardCornerRadius="15dp"
+                    app:cardElevation="2dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp"
+                        android:orientation="vertical">
+
+
+                        <LinearLayout
+                            android:id="@+id/lnIVCalculator"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="12dp"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:baselineAligned="false"
+                                android:orientation="horizontal">
+                                
+                            <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/rbsTIL"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="5dp"
+                                    android:layout_weight="1"
+                                    android:hint="PO₄³⁻"
+                                    app:boxBackgroundColor="#F0F0F0"
+                                    app:suffixText="mmol/L"
+                                    app:suffixTextAppearance="@style/SuffixTextAppearance"
+                                    app:suffixTextColor="#CACACA"
+                                    tools:ignore="HardcodedText">
+
+                                    <com.google.android.material.textfield.TextInputEditText
+                                        android:id="@+id/rbsInput"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:importantForAutofill="no"
+                                        android:inputType="numberDecimal"
+                                        android:maxLength="4"
+                                        android:nextFocusDown="@id/potInput"
+                                        android:paddingStart="10dp"
+                                        android:paddingEnd="10dp"
+                                        android:text=""
+                                        tools:ignore="TextContrastCheck" />
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                                 <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/potTIL"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="5dp"
+                                    android:layout_weight="1"
+                                    android:hint="K⁺"
+                                    app:boxBackgroundColor="#F0F0F0"
+                                    app:suffixText="mmol/L"
+                                    app:suffixTextAppearance="@style/SuffixTextAppearance"
+                                    app:suffixTextColor="#CACACA"
+                                    tools:ignore="HardcodedText">
+
+                                    <com.google.android.material.textfield.TextInputEditText
+                                        android:id="@+id/potInput"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/made_tommy_reg"
+                                        android:importantForAutofill="no"
+                                        android:inputType="numberDecimal"
+                                        android:maxLength="4"
+                                        android:nextFocusDown="@id/bunInput"
+                                        android:paddingStart="10dp"
+                                        android:paddingEnd="10dp"
+                                        android:text=""
+                                        android:textSize="16dp"
+                                        tools:ignore="SpUsage,TextContrastCheck,TooDeepLayout" />
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/bunTIL"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="5dp"
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginEnd="5dp"
+                                    android:layout_marginBottom="5dp"
+                                    android:layout_weight="1"
+                                    android:hint="BUN"
+                                    app:boxBackgroundColor="#F0F0F0"
+                                    app:suffixText="mmol/L"
+                                    app:suffixTextAppearance="@style/SuffixTextAppearance"
+                                    app:suffixTextColor="#CACACA"
+                                    tools:ignore="HardcodedText">
+
+                                    <com.google.android.material.textfield.TextInputEditText
+                                        android:id="@+id/bunInput"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/made_tommy_reg"
+                                        android:importantForAutofill="no"
+                                        android:inputType="numberDecimal"
+                                        android:maxLength="5"
+                                        android:nextFocusDown="@id/po4Input"
+                                        android:paddingStart="10dp"
+                                        android:paddingEnd="10dp"
+                                        android:text=""
+                                        android:textSize="16dp"
+                                        tools:ignore="SpUsage,TextContrastCheck,TooDeepLayout" />
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:baselineAligned="false"
+                                android:orientation="horizontal">
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/po4TIL"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="5dp"
+                                    android:layout_weight="1"
+                                    android:hint="PO₄³⁻"
+                                    app:boxBackgroundColor="#F0F0F0"
+                                    app:suffixText="mmol/L"
+                                    app:suffixTextAppearance="@style/SuffixTextAppearance"
+                                    app:suffixTextColor="#CACACA"
+                                    tools:ignore="HardcodedText">
+
+                                    <com.google.android.material.textfield.TextInputEditText
+                                        android:id="@+id/po4Input"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:importantForAutofill="no"
+                                        android:inputType="numberDecimal"
+                                        android:maxLength="4"
+                                        android:nextFocusDown="@id/mgInput"
+                                        android:paddingStart="10dp"
+                                        android:paddingEnd="10dp"
+                                        android:text=""
+                                        tools:ignore="TextContrastCheck" />
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/mgTIL"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="5dp"
+                                    android:layout_weight="1"
+                                    android:hint="Mg²⁺"
+                                    app:boxBackgroundColor="#F0F0F0"
+                                    app:suffixText="mmol/L"
+                                    app:suffixTextAppearance="@style/SuffixTextAppearance"
+                                    app:suffixTextColor="#CACACA"
+                                    tools:ignore="HardcodedText">
+
+                                    <com.google.android.material.textfield.TextInputEditText
+                                        android:id="@+id/mgInput"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/made_tommy_reg"
+                                        android:importantForAutofill="no"
+                                        android:inputType="numberDecimal"
+                                        android:maxLength="4"
+                                        android:nextFocusDown="@id/calInput"
+                                        android:paddingStart="10dp"
+                                        android:paddingEnd="10dp"
+                                        android:text=""
+                                        android:textSize="16dp"
+                                        tools:ignore="SpUsage,TextContrastCheck,TooDeepLayout" />
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/calTIL"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="5dp"
+                                    android:layout_weight="1"
+                                    android:hint="Ca²⁺"
+                                    app:boxBackgroundColor="#F0F0F0"
+                                    app:suffixText="mmol/L"
+                                    app:suffixTextAppearance="@style/SuffixTextAppearance"
+                                    app:suffixTextColor="#CACACA"
+                                    tools:ignore="HardcodedText">
+
+                                    <com.google.android.material.textfield.TextInputEditText
+                                        android:id="@+id/calInput"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/made_tommy_reg"
+                                        android:importantForAutofill="no"
+                                        android:inputType="numberDecimal"
+                                        android:maxLength="4"
+                                        android:paddingStart="10dp"
+                                        android:paddingEnd="10dp"
+                                        android:text=""
+                                        
+                                        android:textSize="16dp"
+                                        tools:ignore="SpUsage,TextContrastCheck,TooDeepLayout" />
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="7dp"
+                            android:baselineAligned="false"
+                            android:orientation="horizontal">
+
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="1dp"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginTop="6dp"
+                                android:layout_marginEnd="8.5dp"
+                                android:layout_marginBottom="7dp"
+                                android:layout_weight="1"
+                                android:background="#DFDFDF" />
+
+                            <TextView
+                                android:id="@+id/tvAcidBaseCalculatorTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="ACID BASE STATUS"
+                                android:textColor="#7A7A7A"
+                                android:textSize="11dp"
+                                tools:ignore="HardcodedText,SpUsage,TextContrastCheck" />
+
+                            <ImageView
+                                android:id="@+id/chevAcidBase"
+                                android:layout_width="19dp"
+                                android:layout_height="19dp"
+                                android:layout_marginTop="-1.5dp"
+                                android:contentDescription="Open Acid Base Status Calculator"
+                                android:scaleType="centerInside"
+                                android:src="@drawable/ic_chevron_down"
+                                tools:ignore="HardcodedText,ImageContrastCheck" />
+
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="1dp"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginTop="6dp"
+                                android:layout_marginEnd="5dp"
+                                android:layout_marginBottom="7dp"
+                                android:layout_weight="1"
+                                android:background="#DFDFDF" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/lnAGAcidBaseCalculator"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:baselineAligned="false"
+                            android:orientation="vertical"
+                            android:visibility="gone">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:baselineAligned="false"
+                                android:orientation="horizontal">
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/sodTIL"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="5dp"
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginEnd="5dp"
+                                    android:layout_marginBottom="5dp"
+                                    android:layout_weight="1"
+                                    android:hint="Na⁺"
+                                    app:boxBackgroundColor="#F0F0F0"
+                                    app:suffixText="mmol/L"
+                                    app:suffixTextAppearance="@style/SuffixTextAppearance"
+                                    app:suffixTextColor="#CACACA"
+                                    tools:ignore="HardcodedText">
+
+                                    <com.google.android.material.textfield.TextInputEditText
+                                        android:id="@+id/sodInput"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/made_tommy_reg"
+                                        android:importantForAutofill="no"
+                                        android:inputType="number"
+                                        android:maxLength="3"
+                                        android:nextFocusDown="@id/chlInput"
+                                        android:paddingStart="10dp"
+                                        android:paddingEnd="10dp"
+                                        android:text=""
+                                        android:textSize="16dp"
+                                        tools:ignore="SpUsage,TextContrastCheck,TooDeepLayout" />
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/chlTIL"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="5dp"
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginEnd="5dp"
+                                    android:layout_marginBottom="5dp"
+                                    android:layout_weight="1"
+                                    android:hint="Cl⁻"
+                                    app:boxBackgroundColor="#F0F0F0"
+                                    app:suffixText="mmol/L"
+                                    app:suffixTextAppearance="@style/SuffixTextAppearance"
+                                    app:suffixTextColor="#CACACA"
+                                    tools:ignore="HardcodedText">
+
+                                    <com.google.android.material.textfield.TextInputEditText
+                                        android:id="@+id/chlInput"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/made_tommy_reg"
+                                        android:importantForAutofill="no"
+                                        android:inputType="numberDecimal"
+                                        android:maxLength="5"
+                                        android:nextFocusDown="@id/albuminInput"
+                                        android:paddingStart="10dp"
+                                        android:paddingEnd="10dp"
+                                        android:text=""
+                                        android:textSize="16dp"
+                                        tools:ignore="SpUsage,TextContrastCheck,TooDeepLayout" />
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/albuminTIL"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="5dp"
+                                    android:layout_weight="1"
+                                    android:hint="ALB"
+                                    app:boxBackgroundColor="#F0F0F0"
+                                    app:suffixText="g/L"
+                                    app:suffixTextAppearance="@style/SuffixTextAppearance"
+                                    app:suffixTextColor="#CACACA"
+                                    tools:ignore="HardcodedText">
+
+                                    <com.google.android.material.textfield.TextInputEditText
+                                        android:id="@+id/albuminInput"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/made_tommy_reg"
+                                        android:importantForAutofill="no"
+                                        android:inputType="numberDecimal"
+                                        android:maxLength="4"
+                                        android:nextFocusDown="@id/pHInput"
+                                        android:paddingStart="10dp"
+                                        android:paddingEnd="10dp"
+                                        android:text=""
+                                        android:textSize="16dp"
+                                        tools:ignore="SpUsage,TextContrastCheck,TooDeepLayout" />
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:baselineAligned="false"
+                                android:orientation="horizontal">
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/pHTIL"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="5dp"
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginEnd="5dp"
+                                    android:layout_marginBottom="5dp"
+                                    android:layout_weight="1"
+                                    android:hint="pH"
+                                    app:boxBackgroundColor="#F0F0F0"
+                                    app:suffixTextAppearance="@style/SuffixTextAppearance"
+                                    app:suffixTextColor="#CACACA"
+                                    tools:ignore="HardcodedText">
+
+                                    <com.google.android.material.textfield.TextInputEditText
+                                        android:id="@+id/pHInput"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/made_tommy_reg"
+                                        android:importantForAutofill="no"
+                                        android:inputType="numberDecimal"
+                                        android:maxLength="4"
+                                        android:nextFocusDown="@id/pCO2Input"
+                                        android:paddingStart="10dp"
+                                        android:paddingEnd="10dp"
+                                        android:text=""
+                                        android:textSize="16dp"
+                                        tools:ignore="SpUsage,TextContrastCheck,TooDeepLayout" />
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/pCO2TIL"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="5dp"
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginEnd="5dp"
+                                    android:layout_marginBottom="5dp"
+                                    android:layout_weight="1"
+                                    android:hint="pCO₂"
+                                    app:boxBackgroundColor="#F0F0F0"
+                                    app:suffixText="mmHg"
+                                    app:suffixTextAppearance="@style/SuffixTextAppearance"
+                                    app:suffixTextColor="#CACACA"
+                                    tools:ignore="HardcodedText">
+
+                                    <com.google.android.material.textfield.TextInputEditText
+                                        android:id="@+id/pCO2Input"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/made_tommy_reg"
+                                        android:importantForAutofill="no"
+                                        android:inputType="numberDecimal"
+                                        android:maxLength="4"
+                                        android:nextFocusDown="@id/cHCO3Input"
+                                        android:paddingStart="10dp"
+                                        android:paddingEnd="10dp"
+                                        android:text=""
+                                        android:textSize="16dp"
+                                        tools:ignore="SpUsage,TextContrastCheck,TooDeepLayout" />
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/cHCO3TIL"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="5dp"
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginEnd="5dp"
+                                    android:layout_marginBottom="5dp"
+                                    android:layout_weight="1"
+                                    android:hint="HCO₃"
+                                    app:boxBackgroundColor="#F0F0F0"
+                                    app:suffixText="mmol/L"
+                                    app:suffixTextAppearance="@style/SuffixTextAppearance"
+                                    app:suffixTextColor="#CACACA"
+                                    tools:ignore="HardcodedText">
+
+                                    <com.google.android.material.textfield.TextInputEditText
+                                        android:id="@+id/cHCO3Input"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/made_tommy_reg"
+                                        android:imeOptions="actionDone"
+                                        android:importantForAutofill="no"
+                                        android:inputType="numberDecimal"
+                                        android:maxLength="4"
+                                        android:paddingStart="10dp"
+                                        android:paddingEnd="10dp"
+                                        android:text=""
+                                        android:textSize="16dp"
+                                        tools:ignore="SpUsage,TextContrastCheck,TooDeepLayout" />
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+            <!--Dynamic Result Panel in ScrollView-->
+            <ScrollView
+                android:id="@+id/lnResult"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lnBasicCalculator"
+                android:isScrollContainer="false">
+
+                <!-- ScrollView must hold only one collective view -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <!--Icons and Days Titles must be in RelativeLayout to be displayed over the timeline bar to make it progress and move freely -->
+                    <RelativeLayout
+                        android:id="@+id/dynamicResultPanel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="15dp">
+
+                        <!--Timeline Bar-->
+                        <RelativeLayout
+                            android:id="@+id/rlLeftTimelineBar"
+                            android:layout_width="15dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="7.5dp">
+
+                            <View
+                                android:id="@+id/timelineInactiveBar"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/timeline_inactive_bar" />
+
+                            <View
+                                android:id="@+id/timelineActiveBar"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_marginStart="1.5dp"
+                                android:layout_marginEnd="1.5dp"
+                                android:background="@drawable/timeline_active_bar" />
+
+                        </RelativeLayout>
+
+                        <!--Three Daily Divisions must be in RelativeLayout to be able to collapse-->
+                        <RelativeLayout
+                            android:id="@+id/threeDailyCollapsibleDivisionsLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <!--Day 1 Icon and Title must be displayed in same horizontal LinearLayout and below it LinearLayout for Result-->
+                            <RelativeLayout
+                                android:id="@+id/dayOnePanel"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <!--Result Plan Panel for Day 1-->
+                                <RelativeLayout
+                                    android:id="@+id/dayOneResultPanel"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0dp"
+                                    android:layout_below="@+id/dayOneLayout"
+                                    android:layout_marginStart="23dp"
+                                    android:layout_marginTop="-16.5dp"
+                                    android:layout_marginEnd="0.5dp"
+                                    android:background="@drawable/result_background"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:gravity="center"
+                                        android:text="Content goes here"
+                                        tools:ignore="HardcodedText" />
+
+                                </RelativeLayout>
+
+                                <!--We need RelativeLayout to display icon over circle-->
+                                <RelativeLayout
+                                    android:id="@+id/dayOneLayout"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <!--Title and background with terminal arrow-->
+                                    <!--This will be moved slightly by layout_marginStart, so not to be covered by circle and icon-->
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="23dp"
+                                        android:layout_marginStart="10dp"
+                                        android:layout_marginTop="4.5dp"
+                                        android:layout_marginBottom="5dp"
+                                        android:orientation="horizontal">
+
+                                        <!--Width set to zero to make background to fill the whole screen-->
+                                        <TextView
+                                            android:id="@+id/dayOneTitle"
+                                            android:layout_width="0dp"
+                                            android:layout_height="23dp"
+                                            android:layout_gravity="center_vertical"
+                                            android:layout_weight="1"
+                                            android:background="@color/inactiveResultState"
+                                            android:fontFamily="@font/made_tommy_bold"
+                                            android:gravity="start|center"
+                                            android:paddingStart="28dp"
+                                            android:paddingEnd="0dp"
+                                            android:text="DAY 1 (Resuscitative Phase)"
+                                            android:textColor="#ffffff"
+                                            android:textSize="14dp"
+                                            android:textStyle="bold"
+                                            tools:ignore="HardcodedText,SpUsage,TextSizeCheck" />
+
+                                        <!--Triangular end for the title-->
+                                        <View
+                                            android:id="@+id/ivDayOneTri"
+                                            android:layout_width="15dp"
+                                            android:layout_height="23dp"
+                                            android:layout_gravity="center"
+                                            android:background="@drawable/triangle_shape_inactive" />
+
+                                    </LinearLayout>
+
+                                    <!--Circle background for the title-->
+                                    <View
+                                        android:id="@+id/dayOneIconBk"
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:background="@drawable/progress_item_circle_inactive" />
+
+                                    <!--Icon for the title-->
+                                    <ImageView
+                                        android:id="@+id/dayOneIcon"
+                                        android:layout_width="23dp"
+                                        android:layout_height="23dp"
+                                        android:layout_marginStart="3dp"
+                                        android:layout_marginTop="3dp"
+                                        android:padding="3.5dp"
+                                        android:src="@drawable/day_one_icon"
+                                        tools:ignore="ContentDescription" />
+
+                                    <!--Checkmark Icon for completed plan for the title-->
+                                    <ImageView
+                                        android:id="@+id/dayOneCompleted"
+                                        android:layout_width="23dp"
+                                        android:layout_height="23dp"
+                                        android:layout_marginStart="3.5dp"
+                                        android:layout_marginTop="3.5dp"
+                                        android:padding="3.5dp"
+                                        android:src="@drawable/completed_checkmark"
+                                        android:visibility="invisible"
+                                        tools:ignore="ContentDescription" />
+
+                                </RelativeLayout>
+
+                            </RelativeLayout>
+
+                            <!--Day 2 Icon and Title must be displayed in same horizontal LinearLayout and below it LinearLayout for Result-->
+                            <RelativeLayout
+                                android:id="@+id/dayTwoPanel"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/dayOnePanel"
+                                android:orientation="vertical"
+                                android:visibility="visible">
+
+                                <!--Result Plan Panel for Day 2-->
+                                <RelativeLayout
+                                    android:id="@+id/dayTwoResultPanel"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0dp"
+                                    android:layout_below="@+id/dayTwoLayout"
+                                    android:layout_marginStart="22.5dp"
+                                    android:layout_marginTop="-16.5dp"
+                                    android:layout_marginEnd="0.5dp"
+                                    android:background="@drawable/result_background"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:gravity="center"
+                                        android:text="Content goes here"
+                                        tools:ignore="HardcodedText" />
+
+                                </RelativeLayout>
+
+                                <!--We need RelativeLayout to display icon over circle-->
+                                <RelativeLayout
+                                    android:id="@+id/dayTwoLayout"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <!--Title and background with terminal arrow-->
+                                    <!--This will be moved slightly by layout_marginStart, so not to be covered by circle and icon-->
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="23dp"
+                                        android:layout_marginStart="10dp"
+                                        android:layout_marginTop="4dp"
+                                        android:layout_marginBottom="5dp"
+                                        android:orientation="horizontal">
+
+                                        <!--Width set to zero to make background to fill the whole screen-->
+                                        <TextView
+                                            android:id="@+id/dayTwoTitle"
+                                            android:layout_width="0dp"
+                                            android:layout_height="23dp"
+                                            android:layout_gravity="center_vertical"
+                                            android:layout_weight="1"
+                                            android:background="@color/inactiveResultState"
+                                            android:fontFamily="@font/made_tommy_bold"
+                                            android:gravity="start|center"
+                                            android:paddingStart="28dp"
+                                            android:paddingEnd="0dp"
+                                            android:text="DAY 2 (Maintenance Phase)"
+                                            android:textColor="#ffffff"
+                                            android:textSize="14dp"
+                                            android:textStyle="bold"
+                                            tools:ignore="HardcodedText,SpUsage,TextSizeCheck" />
+
+                                        <!--Triangular end for the title-->
+                                        <View
+                                            android:id="@+id/ivDayTwoTri"
+                                            android:layout_width="15dp"
+                                            android:layout_height="23dp"
+                                            android:layout_gravity="center"
+                                            android:background="@drawable/triangle_shape_inactive" />
+
+                                    </LinearLayout>
+
+                                    <!--Circle background for the title-->
+                                    <View
+                                        android:id="@+id/dayTwoIconBk"
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:background="@drawable/progress_item_circle_inactive" />
+
+                                    <!--Icon for the title-->
+                                    <ImageView
+                                        android:id="@+id/dayTwoIcon"
+                                        android:layout_width="23dp"
+                                        android:layout_height="23dp"
+                                        android:layout_marginStart="3.5dp"
+                                        android:layout_marginTop="3.5dp"
+                                        android:padding="3.5dp"
+                                        android:src="@drawable/day_two_icon"
+                                        tools:ignore="ContentDescription" />
+
+                                    <!--Checkmark Icon for completed plan for the title-->
+                                    <ImageView
+                                        android:id="@+id/dayTwoCompleted"
+                                        android:layout_width="23dp"
+                                        android:layout_height="23dp"
+                                        android:layout_marginStart="3dp"
+                                        android:layout_marginTop="3dp"
+                                        android:padding="3.5dp"
+                                        android:src="@drawable/completed_checkmark"
+                                        android:visibility="invisible"
+                                        tools:ignore="ContentDescription" />
+
+                                </RelativeLayout>
+
+                            </RelativeLayout>
+
+                            <!--Day 3 Icon and Title must be displayed in same horizontal LinearLayout and below it LinearLayout for Result-->
+                            <RelativeLayout
+                                android:id="@+id/dayThreePanel"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/dayTwoPanel"
+                                android:orientation="vertical"
+                                android:visibility="visible">
+
+                                <!--Result Plan Panel for Day 3-->
+                                <RelativeLayout
+                                    android:id="@+id/dayThreeResultPanel"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0dp"
+                                    android:layout_below="@+id/dayThreeLayout"
+                                    android:layout_marginStart="22.5dp"
+                                    android:layout_marginTop="-16.5dp"
+                                    android:layout_marginEnd="0.5dp"
+                                    android:background="@drawable/result_background">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:gravity="center"
+                                        android:text="Content goes here"
+                                        tools:ignore="HardcodedText" />
+
+                                </RelativeLayout>
+
+                                <!--We need RelativeLayout to display icon over circle-->
+                                <RelativeLayout
+                                    android:id="@+id/dayThreeLayout"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <!--Title and background with terminal arrow-->
+                                    <!--This will be moved slightly by layout_marginStart, so not to be covered by circle and icon-->
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="23dp"
+                                        android:layout_marginStart="10dp"
+                                        android:layout_marginTop="3.5dp"
+                                        android:layout_marginBottom="5dp"
+                                        android:orientation="horizontal">
+
+                                        <!--Width set to zero to make background to fill the whole screen-->
+                                        <TextView
+                                            android:id="@+id/dayThreeTitle"
+                                            android:layout_width="0dp"
+                                            android:layout_height="23dp"
+                                            android:layout_gravity="center_vertical"
+                                            android:layout_weight="1"
+                                            android:background="@color/inactiveResultState"
+                                            android:fontFamily="@font/made_tommy_bold"
+                                            android:gravity="start|center"
+                                            android:paddingStart="28dp"
+                                            android:paddingEnd="0dp"
+                                            android:text="DAY 3 (Delayed Phase)"
+                                            android:textColor="#ffffff"
+                                            android:textSize="14dp"
+                                            android:textStyle="bold"
+                                            tools:ignore="HardcodedText,SpUsage,TextSizeCheck,TooManyViews" />
+
+                                        <!--Triangular end for the title-->
+                                        <View
+                                            android:id="@+id/ivDayThreeTri"
+                                            android:layout_width="15dp"
+                                            android:layout_height="23dp"
+                                            android:layout_gravity="center"
+                                            android:background="@drawable/triangle_shape_inactive" />
+
+                                    </LinearLayout>
+
+                                    <!--Circle background for the title-->
+                                    <View
+                                        android:id="@+id/dayThreeIconBk"
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:background="@drawable/progress_item_circle_inactive"
+                                        tools:ignore="TooManyViews" />
+
+                                    <!--Icon for the title-->
+                                    <ImageView
+                                        android:id="@+id/dayThreeIcon"
+                                        android:layout_width="23dp"
+                                        android:layout_height="23dp"
+                                        android:layout_marginStart="3.5dp"
+                                        android:layout_marginTop="3.5dp"
+                                        android:padding="3.5dp"
+                                        android:src="@drawable/day_three_icon"
+                                        tools:ignore="ContentDescription" />
+
+                                    <!--Checkmark Icon for completed plan for the title-->
+                                    <ImageView
+                                        android:id="@+id/dayThreeCompleted"
+                                        android:layout_width="23dp"
+                                        android:layout_height="23dp"
+                                        android:layout_marginStart="3dp"
+                                        android:layout_marginTop="3dp"
+                                        android:padding="3.5dp"
+                                        android:src="@drawable/completed_checkmark"
+                                        android:visibility="invisible"
+                                        tools:ignore="ContentDescription" />
+
+                                </RelativeLayout>
+
+                            </RelativeLayout>
+
+                        </RelativeLayout>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/oldResultPanel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/dynamicResultPanel"
+                        android:layout_gravity="top"
+                        android:gravity="top">
+
+                        <LinearLayout
+                            android:id="@+id/ln0"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_gravity="top"
+                            android:layout_margin="15dp"
+                            android:layout_marginBottom="2dp"
+                            android:orientation="vertical"
+                            android:visibility="visible">
+
+                            <TextView
+                                android:id="@+id/resusNote"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:background="#e4e4e4"
+                                android:fontFamily="@font/made_tommy_reg"
+                                android:gravity="start"
+                                android:padding="20dp"
+                                android:text=""
+                                android:textSize="11dp"
+                                tools:ignore="SpUsage" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/ln1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/ln0"
+                            android:layout_gravity="center"
+                            android:layout_margin="15dp"
+                            android:background="@drawable/insulin_bk"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tvInsulin"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:fontFamily="@font/made_tommy_reg"
+                                android:gravity="center"
+                                android:padding="10dp"
+                                android:text=""
+                                android:textSize="14dp"
+                                tools:ignore="SpUsage" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/ln2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/ln1"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_margin="15dp"
+                            android:layout_marginBottom="2dp"
+                            android:background="#ececec"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tvIVInfusion"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/made_tommy_reg"
+                                android:gravity="center"
+                                android:padding="10dp"
+                                android:text=""
+                                android:textSize="14dp"
+                                tools:ignore="SpUsage" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/ln3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/ln2"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_margin="15dp"
+                            android:layout_marginBottom="2dp"
+                            android:background="#ececec"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tvABGDx"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/made_tommy_reg"
+                                android:gravity="center"
+                                android:padding="10dp"
+                                android:text=""
+                                android:textSize="14dp"
+                                tools:ignore="HardcodedText,SpUsage" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/cr"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/ln3"
+                            android:layout_margin="40dp"
+                            android:fontFamily="@font/cled_reg"
+                            android:gravity="center"
+                            android:text="v1.0.J.7.2023"
+                            tools:ignore="HardcodedText" />
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+            </ScrollView>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</layout>

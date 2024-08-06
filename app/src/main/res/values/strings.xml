@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">DKA Assistant</string>
+    <string name="default_web_client_id">903177123975-16p5285du73u802b2n5oapsh021q5nfq.apps.googleusercontent.com</string>
+    <string name="welcome_message">Welcome, %s</string>
+</resources>

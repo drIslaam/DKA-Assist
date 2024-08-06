@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "903177123975",
+    "project_id": "dka-assistant",
+    "storage_bucket": "dka-assistant.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:903177123975:android:0913d619f76ec2686c6022",
+        "android_client_info": {
+          "package_name": "com.somed.dkaassistant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "903177123975-16p5285du73u802b2n5oapsh021q5nfq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.somed.dkaassistant",
+            "certificate_hash": "844a8de20c50414ec156d0d8f50c4ef85e2ece45"
+          }
+        },
+        {
+          "client_id": "903177123975-tgg3ccm5ckiafqplukf8fn3dvdtoiq7p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.somed.dkaassistant",
+            "certificate_hash": "ad98d7b0c9be14d2b80f37f3343cba07d635460f"
+          }
+        },
+        {
+          "client_id": "903177123975-lqfrl8r53m50c2u8rnsgvlae8d43o12r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC18PvjhzxE2wUgwwgvuiBIC7JtQY-PwOU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "903177123975-lqfrl8r53m50c2u8rnsgvlae8d43o12r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
